@@ -34,6 +34,8 @@ public class Ruta {
     @JoinColumn(name = "destino_id")
 	private Parada destino;
 	
+	@ManyToOne
+	@JoinColumn(name = "RecorridoId")
 	private List<Parada> recorrido;
 	
 	private List<Linea> lineasUsadas;

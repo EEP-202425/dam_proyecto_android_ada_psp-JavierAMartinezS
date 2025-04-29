@@ -39,6 +39,9 @@ public class Parada {
 
 	private boolean esIntermedio;
 	
+	@OneToMany(mappedBy = "recorrido")
+	private Ruta rutaPerteneciente;
+	
 	@ManyToMany(mappedBy = "paradas")
 	private List<Linea> lineas = new ArrayList<>();
 
