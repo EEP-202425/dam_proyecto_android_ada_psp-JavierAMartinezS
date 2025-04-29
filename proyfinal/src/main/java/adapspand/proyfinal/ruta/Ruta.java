@@ -13,6 +13,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -38,7 +40,13 @@ public class Ruta {
 	@JoinColumn(name = "RecorridoId")
 	private List<Parada> recorrido;
 	
-	private List<Linea> lineasUsadas;
+	@ManyToMany
+	@JoinTable(
+		    name = "LineasEnRuta",
+		    joinColumns = @JoinColumn(name = "rutaIdEnLinea"),
+		    inverseJoinColumns = @JoinColumn(name = "lineaIdEnRuta")
+		)
+	private List<Linea> lineasUsadas = new ArrayList<>();
 	
 	private boolean transbordo = false;
 	

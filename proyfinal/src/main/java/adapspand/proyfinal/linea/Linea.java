@@ -5,6 +5,7 @@ import java.util.List;
 
 import adapspand.proyfinal.parada.Estaciones;
 import adapspand.proyfinal.parada.Parada;
+import adapspand.proyfinal.ruta.Ruta;
 import adapspand.proyfinal.tren.Tren;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,7 +15,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -37,6 +37,9 @@ public class Linea {
         inverseJoinColumns = @JoinColumn(name = "paradasCorrespondientes")
     )
     private List<Parada> paradas = new ArrayList<>();
+	
+	@ManyToMany(mappedBy = "lineasUsadas")
+	private List<Ruta> rutas = new ArrayList<>();
 	
 	public Linea() {
 		super();
