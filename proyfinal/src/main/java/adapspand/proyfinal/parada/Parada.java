@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import adapspand.proyfinal.linea.Linea;
+import adapspand.proyfinal.ruta.Ruta;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -11,6 +12,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -26,8 +28,15 @@ public class Parada {
 	
 	private boolean esOrigen;
 	
+	@OneToMany(mappedBy = "origen")
+    private List<Ruta> rutasComoOrigen = new ArrayList<>();
+
+	
 	private boolean esDestino;
 	
+	@OneToMany(mappedBy = "destino")
+    private List<Ruta> rutasComoDestino = new ArrayList<>();
+
 	private boolean esIntermedio;
 	
 	@ManyToMany(mappedBy = "paradas")
