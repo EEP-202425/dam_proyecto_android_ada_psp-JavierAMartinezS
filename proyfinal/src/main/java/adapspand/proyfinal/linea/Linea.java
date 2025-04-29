@@ -3,13 +3,15 @@ package adapspand.proyfinal.linea;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.boot.SpringApplication;
-
 import adapspand.proyfinal.parada.Estaciones;
+import adapspand.proyfinal.parada.Parada;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -22,6 +24,14 @@ public class Linea {
 	
 	private String nombre;
 	
+	@ManyToMany
+    @JoinTable(
+        name = "lineasParada",
+        joinColumns = @JoinColumn(name = "lineasCorrespondientes"),
+        inverseJoinColumns = @JoinColumn(name = "paradasCorrespondientes")
+    )
+    private List<Parada> paradas = new ArrayList<>();
+	
 	public Linea() {
 		super();
 	}
@@ -31,6 +41,7 @@ public class Linea {
 		this.id = id;
 		this.nombre = nombre;
 	}
+	
 
 	public static List<Estaciones> setLineaA() {
 		List<Estaciones> estaciones = new ArrayList<>();

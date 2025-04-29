@@ -1,13 +1,16 @@
 package adapspand.proyfinal.parada;
 
-import org.springframework.boot.SpringApplication;
+import java.util.ArrayList;
+import java.util.List;
 
+import adapspand.proyfinal.linea.Linea;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -26,6 +29,9 @@ public class Parada {
 	private boolean esDestino;
 	
 	private boolean esIntermedio;
+	
+	@ManyToMany(mappedBy = "paradas")
+	private List<Linea> lineas = new ArrayList<>();
 
 	public Parada() {
 		super();
