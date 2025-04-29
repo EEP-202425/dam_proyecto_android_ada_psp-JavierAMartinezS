@@ -17,8 +17,10 @@ public class Tren {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	private Linea lineaCorrespondiente;
+	
+	@ManyToOne
+    @JoinColumn(name = "lineaId")
+	private Linea linea;
 
 	@ManyToOne
 	@JoinColumn(name = "rutaId")
@@ -31,7 +33,7 @@ public class Tren {
 	public Tren(Long id, Linea lineaCorrespondiente, Ruta rutaCorrespondiente) {
 		super();
 		this.id = id;
-		this.lineaCorrespondiente = lineaCorrespondiente;
+		this.linea = lineaCorrespondiente;
 		this.rutaCorrespondiente = rutaCorrespondiente;
 	}
 

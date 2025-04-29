@@ -5,6 +5,7 @@ import java.util.List;
 
 import adapspand.proyfinal.parada.Estaciones;
 import adapspand.proyfinal.parada.Parada;
+import adapspand.proyfinal.tren.Tren;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,6 +13,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -23,6 +26,9 @@ public class Linea {
     private Long id;
 	
 	private String nombre;
+	
+	@OneToMany(mappedBy = "linea")
+	private List<Tren> trenesCorrespondientes = new ArrayList<>();
 	
 	@ManyToMany
     @JoinTable(
