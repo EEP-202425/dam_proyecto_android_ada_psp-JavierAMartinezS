@@ -1,13 +1,13 @@
 package adapspand.proyfinal.tren;
 
-import org.springframework.boot.SpringApplication;
-
 import adapspand.proyfinal.linea.Linea;
 import adapspand.proyfinal.ruta.Ruta;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -20,6 +20,8 @@ public class Tren {
 
 	private Linea lineaCorrespondiente;
 
+	@ManyToOne
+	@JoinColumn(name = "rutaId")
 	private Ruta rutaCorrespondiente;
 
 	public Tren() {

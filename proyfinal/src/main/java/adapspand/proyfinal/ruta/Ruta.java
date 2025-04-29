@@ -1,17 +1,18 @@
 package adapspand.proyfinal.ruta;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import org.springframework.boot.SpringApplication;
 
 import adapspand.proyfinal.billete.Billete;
 import adapspand.proyfinal.linea.Linea;
 import adapspand.proyfinal.parada.Parada;
+import adapspand.proyfinal.tren.Tren;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -32,6 +33,9 @@ public class Ruta {
 	private List<Linea> lineasUsadas;
 	
 	private boolean transbordo = false;
+	
+	@OneToMany(mappedBy = "rutaCorrespondiente")
+	private List<Tren> trenes = new ArrayList<>();
 	
 	@OneToOne(mappedBy = "billete", cascade = CascadeType.ALL)
 	private Billete billete;
