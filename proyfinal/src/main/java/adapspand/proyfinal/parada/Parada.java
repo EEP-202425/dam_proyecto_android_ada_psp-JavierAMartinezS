@@ -1,13 +1,17 @@
 package adapspand.proyfinal.parada;
 
+import org.springframework.boot.SpringApplication;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "parada")
 public class Parada {
 	
 	@Id
@@ -16,4 +20,22 @@ public class Parada {
 	
 	@Enumerated(EnumType.STRING)
     private Estaciones nombre;
+	
+	private boolean esOrigen;
+	
+	private boolean esDestino;
+
+	public Parada() {
+		super();
+	}
+
+	public Parada(Long id, Estaciones nombre) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+	}
+	
+	public static void main(String[] args) {
+		SpringApplication.run(Parada.class, args);
+	}
 }

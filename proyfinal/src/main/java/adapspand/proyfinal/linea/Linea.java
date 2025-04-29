@@ -3,13 +3,17 @@ package adapspand.proyfinal.linea;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.boot.SpringApplication;
+
 import adapspand.proyfinal.parada.Estaciones;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "linea")
 public class Linea {
 	
 	@Id
@@ -18,6 +22,16 @@ public class Linea {
 	
 	private String nombre;
 	
+	public Linea() {
+		super();
+	}
+	
+	public Linea(Long id, String nombre) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+	}
+
 	public static List<Estaciones> setLineaA() {
 		List<Estaciones> estaciones = new ArrayList<>();
 	    estaciones.add(Estaciones.HELSINKI);
@@ -101,5 +115,9 @@ public class Linea {
 	    estaciones.add(Estaciones.ZURICH);
 	    estaciones.add(Estaciones.MILAN);
 	    return estaciones;
+	}
+	
+	public static void main(String[] args) {
+		SpringApplication.run(Linea.class, args);
 	}
 }
