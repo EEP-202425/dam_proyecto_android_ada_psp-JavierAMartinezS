@@ -43,6 +43,6 @@ public class Ruta {
 	}
 	
 	public static void main(String[] args) {
-		SpringApplication.run(Ruta.class, args);
+//		SpringApplication.run(Ruta.class, args);
 	}
 }

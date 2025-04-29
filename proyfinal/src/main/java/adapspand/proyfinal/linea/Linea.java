@@ -118,6 +118,6 @@ public class Linea {
 	}
 	
 	public static void main(String[] args) {
-		SpringApplication.run(Linea.class, args);
+//		SpringApplication.run(Linea.class, args);
 	}
 }

@@ -34,6 +34,6 @@ public class Tren {
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.run(Tren.class, args);
+//		SpringApplication.run(Tren.class, args);
 	}
 }

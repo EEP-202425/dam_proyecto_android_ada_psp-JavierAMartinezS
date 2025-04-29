@@ -35,6 +35,6 @@ public class Billete {
 	}
 	
 	public static void main(String[] args) {
-		SpringApplication.run(Billete.class, args);
+//		SpringApplication.run(Billete.class, args);
 	}
 }

@@ -24,6 +24,8 @@ public class Parada {
 	private boolean esOrigen;
 	
 	private boolean esDestino;
+	
+	private boolean esIntermedio;
 
 	public Parada() {
 		super();
@@ -36,6 +38,6 @@ public class Parada {
 	}
 	
 	public static void main(String[] args) {
-		SpringApplication.run(Parada.class, args);
+//		SpringApplication.run(Parada.class, args);
 	}
 }
