@@ -3,13 +3,18 @@ package adapspand.proyfinal.linea;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.boot.SpringApplication;
-
 import adapspand.proyfinal.parada.Estaciones;
+import adapspand.proyfinal.parada.Parada;
+import adapspand.proyfinal.ruta.Ruta;
+import adapspand.proyfinal.tren.Tren;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -22,6 +27,20 @@ public class Linea {
 	
 	private String nombre;
 	
+	@OneToMany(mappedBy = "linea")
+	private List<Tren> trenesCorrespondientes = new ArrayList<>();
+	
+	@ManyToMany
+    @JoinTable(
+        name = "lineasParada",
+        joinColumns = @JoinColumn(name = "lineasCorrespondientes"),
+        inverseJoinColumns = @JoinColumn(name = "paradasCorrespondientes")
+    )
+    private List<Parada> paradas = new ArrayList<>();
+	
+	@ManyToMany(mappedBy = "lineasUsadas")
+	private List<Ruta> rutas = new ArrayList<>();
+	
 	public Linea() {
 		super();
 	}
@@ -31,6 +50,7 @@ public class Linea {
 		this.id = id;
 		this.nombre = nombre;
 	}
+	
 
 	public static List<Estaciones> setLineaA() {
 		List<Estaciones> estaciones = new ArrayList<>();
@@ -117,7 +137,4 @@ public class Linea {
 	    return estaciones;
 	}
 	
-	public static void main(String[] args) {
-//		SpringApplication.run(Linea.class, args);
-	}
 }

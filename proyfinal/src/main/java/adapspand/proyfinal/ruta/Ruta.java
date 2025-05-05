@@ -1,15 +1,23 @@
 package adapspand.proyfinal.ruta;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.boot.SpringApplication;
-
+import adapspand.proyfinal.billete.Billete;
 import adapspand.proyfinal.linea.Linea;
 import adapspand.proyfinal.parada.Parada;
+import adapspand.proyfinal.tren.Tren;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -20,15 +28,33 @@ public class Ruta {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@ManyToOne
+    @JoinColumn(name = "origenId")
 	private Parada origen;
 	
+	@ManyToOne
+    @JoinColumn(name = "destino_id")
 	private Parada destino;
 	
+	@ManyToOne
+	@JoinColumn(name = "RecorridoId")
 	private List<Parada> recorrido;
 	
-	private List<Linea> lineasUsadas;
+	@ManyToMany
+	@JoinTable(
+		    name = "LineasEnRuta",
+		    joinColumns = @JoinColumn(name = "rutaIdEnLinea"),
+		    inverseJoinColumns = @JoinColumn(name = "lineaIdEnRuta")
+		)
+	private List<Linea> lineasUsadas = new ArrayList<>();
 	
 	private boolean transbordo = false;
+	
+	@OneToMany(mappedBy = "rutaCorrespondiente")
+	private List<Tren> trenes = new ArrayList<>();
+	
+	@OneToOne(mappedBy = "billete", cascade = CascadeType.ALL)
+	private Billete billete;
 
 	public Ruta() {
 		super();
@@ -42,7 +68,4 @@ public class Ruta {
 		this.recorrido = recorrido;
 	}
 	
-	public static void main(String[] args) {
-//		SpringApplication.run(Ruta.class, args);
-	}
 }

@@ -1,13 +1,18 @@
 package adapspand.proyfinal.parada;
 
-import org.springframework.boot.SpringApplication;
+import java.util.ArrayList;
+import java.util.List;
 
+import adapspand.proyfinal.linea.Linea;
+import adapspand.proyfinal.ruta.Ruta;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -23,9 +28,22 @@ public class Parada {
 	
 	private boolean esOrigen;
 	
+	@OneToMany(mappedBy = "origen")
+    private List<Ruta> rutasComoOrigen = new ArrayList<>();
+
+	
 	private boolean esDestino;
 	
+	@OneToMany(mappedBy = "destino")
+    private List<Ruta> rutasComoDestino = new ArrayList<>();
+
 	private boolean esIntermedio;
+	
+	@OneToMany(mappedBy = "recorrido")
+	private Ruta rutaPerteneciente;
+	
+	@ManyToMany(mappedBy = "paradas")
+	private List<Linea> lineas = new ArrayList<>();
 
 	public Parada() {
 		super();
@@ -37,7 +55,4 @@ public class Parada {
 		this.nombre = nombre;
 	}
 	
-	public static void main(String[] args) {
-//		SpringApplication.run(Parada.class, args);
-	}
 }

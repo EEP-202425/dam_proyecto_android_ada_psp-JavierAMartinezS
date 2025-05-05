@@ -1,13 +1,13 @@
 package adapspand.proyfinal.tren;
 
-import org.springframework.boot.SpringApplication;
-
 import adapspand.proyfinal.linea.Linea;
 import adapspand.proyfinal.ruta.Ruta;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -17,9 +17,13 @@ public class Tren {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@ManyToOne
+    @JoinColumn(name = "lineaId")
+	private Linea linea;
 
-	private Linea lineaCorrespondiente;
-
+	@ManyToOne
+	@JoinColumn(name = "rutaId")
 	private Ruta rutaCorrespondiente;
 
 	public Tren() {
@@ -29,11 +33,8 @@ public class Tren {
 	public Tren(Long id, Linea lineaCorrespondiente, Ruta rutaCorrespondiente) {
 		super();
 		this.id = id;
-		this.lineaCorrespondiente = lineaCorrespondiente;
+		this.linea = lineaCorrespondiente;
 		this.rutaCorrespondiente = rutaCorrespondiente;
 	}
 
-	public static void main(String[] args) {
-//		SpringApplication.run(Tren.class, args);
-	}
 }
