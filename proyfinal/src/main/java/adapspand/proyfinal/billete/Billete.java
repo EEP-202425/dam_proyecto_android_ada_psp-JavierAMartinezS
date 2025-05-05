@@ -39,7 +39,4 @@ public class Billete {
 		this.destino = destino;
 	}
 	
-	public static void main(String[] args) {
-//		SpringApplication.run(Billete.class, args);
-	}
 }

@@ -37,7 +37,4 @@ public class Tren {
 		this.rutaCorrespondiente = rutaCorrespondiente;
 	}
 
-	public static void main(String[] args) {
-//		SpringApplication.run(Tren.class, args);
-	}
 }

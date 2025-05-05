@@ -137,7 +137,4 @@ public class Linea {
 	    return estaciones;
 	}
 	
-	public static void main(String[] args) {
-//		SpringApplication.run(Linea.class, args);
-	}
 }

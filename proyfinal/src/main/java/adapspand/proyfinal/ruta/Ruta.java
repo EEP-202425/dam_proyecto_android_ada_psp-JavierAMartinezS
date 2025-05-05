@@ -68,7 +68,4 @@ public class Ruta {
 		this.recorrido = recorrido;
 	}
 	
-	public static void main(String[] args) {
-//		SpringApplication.run(Ruta.class, args);
-	}
 }

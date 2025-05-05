@@ -55,7 +55,4 @@ public class Parada {
 		this.nombre = nombre;
 	}
 	
-	public static void main(String[] args) {
-//		SpringApplication.run(Parada.class, args);
-	}
 }
