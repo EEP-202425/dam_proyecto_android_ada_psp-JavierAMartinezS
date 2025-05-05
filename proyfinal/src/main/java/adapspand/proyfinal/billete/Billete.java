@@ -20,6 +20,8 @@ public class Billete {
 	
 	private int precio;
 	
+//	private String propietario;
+	
 	private Parada origen;
 	
 	private Parada destino;
@@ -38,5 +40,13 @@ public class Billete {
 		this.origen = origen;
 		this.destino = destino;
 	}
+
+//	public String getPropietario() {
+//		return propietario;
+//	}
+//
+//	public void setPropietario(String propietario) {
+//		this.propietario = propietario;
+//	}
 	
 }
