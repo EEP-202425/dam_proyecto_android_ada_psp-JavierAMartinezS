@@ -19,6 +19,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.OrderColumn;
 import jakarta.persistence.Table;
 
 @Entity
@@ -37,9 +38,14 @@ public class Ruta {
     @JoinColumn(name = "destino_id")
 	private Parada destino;
 	
-	@ManyToOne
-	@JoinColumn(name = "RecorridoId")
-	private List<Parada> recorrido;
+	@ManyToMany
+	@JoinTable(
+	    name = "ruta_paradas",
+	    joinColumns = @JoinColumn(name = "ruta_id"),
+	    inverseJoinColumns = @JoinColumn(name = "parada_id")
+	)
+	@OrderColumn(name = "trayecto")
+	private List<Parada> recorrido = new ArrayList<>();
 	
 	@ManyToMany
 	@JoinTable(
@@ -54,7 +60,7 @@ public class Ruta {
 	@OneToMany(mappedBy = "rutaCorrespondiente")
 	private List<Tren> trenes = new ArrayList<>();
 	
-	@OneToOne(mappedBy = "billete", cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = "ruta", cascade = CascadeType.ALL)
 	private Billete billete;
 
 	public Ruta() {
