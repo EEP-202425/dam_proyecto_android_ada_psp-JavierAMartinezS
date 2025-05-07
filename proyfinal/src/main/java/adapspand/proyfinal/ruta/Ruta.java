@@ -128,6 +128,21 @@ public class Ruta {
 
 	    return ruta;
 	}
-
 	
+	public Parada getOrigen() {
+		return origen;
+	}
+	
+	public void setOrigen(Parada origen) {
+		this.origen = origen;
+	}
+
+	public Parada getDestino() {
+		return destino;
+	}
+
+	public void setDestino(Parada destino) {
+		this.destino = destino;
+	}
+
 }
