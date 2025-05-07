@@ -1,6 +1,5 @@
 package adapspand.proyfinal.linea;
 
-import java.security.Principal;
 import java.util.List;
 
 import org.springframework.data.domain.Page;

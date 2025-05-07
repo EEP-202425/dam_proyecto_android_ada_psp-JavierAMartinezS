@@ -17,6 +17,7 @@ import adapspand.proyfinal.ruta.Ruta;
 @RestController
 @RequestMapping("/trenes")
 public class TrenController {
+	
 	private final TrenRepository trenRepository;
 	
 	private TrenController(TrenRepository tr) {
@@ -25,8 +26,8 @@ public class TrenController {
 	
 	@GetMapping
 	private ResponseEntity<List<Tren>> findAll(Pageable pageable, Ruta ruta) {
-		Page<Tren> page = trenRepository.buscarPorBillete(
-				ruta.getRuta(),
+		Page<Tren> page = trenRepository.buscarPorRuta(
+				ruta.getRuta(ruta.getOrigen(), ruta.getDestino()),
 				PageRequest.of(
 						pageable.getPageNumber(),
 						pageable.getPageSize(),
