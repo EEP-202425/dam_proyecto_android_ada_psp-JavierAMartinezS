@@ -53,14 +53,4 @@ public class RutaController {
 			return ResponseEntity.created(uriBuena).build();
 	}
 	
-//	@PostMapping
-//	private ResponseEntity<Void> createCashCard(
-//			@RequestBody CashCard nuevaTarjeta, UriComponentsBuilder ucb,
-//			Principal principal
-//			) {
-//		CashCard tarjetaBuena = new CashCard(null, nuevaTarjeta.amount(), principal.getName());
-//		CashCard devuelto = cashCardRepository.save(tarjetaBuena);
-//		URI locationBuena = ucb.path("cashcards/{id}").buildAndExpand(devuelto.id()).toUri();
-//		return ResponseEntity.created(locationBuena).build();
-//	}
 }
