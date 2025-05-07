@@ -1,5 +1,6 @@
 package adapspand.proyfinal.billete;
 
+import java.net.URI;
 import java.security.Principal;
 import java.util.List;
 
@@ -9,8 +10,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import adapspand.proyfinal.ruta.Ruta;
 
 @RestController
 @RequestMapping("/billetes")
@@ -32,5 +38,16 @@ public class BilleteControler {
 						pageable.getSortOr(Sort.by(Sort.Direction.ASC, "precio"))
 				));
 		return ResponseEntity.ok(page.getContent());
+	}
+	
+	@PostMapping
+	private ResponseEntity<Void> createBillete(
+			@RequestBody Billete nuevoBillete, UriComponentsBuilder ucb, Long id
+			) {
+			Billete billeteBueno = new Billete(null, nuevoBillete.getOrigen(),
+					nuevoBillete.getDestino());
+			Billete billeteDevuelto = billeteRepository.save(billeteBueno);
+			URI uriBuena = ucb.path("billetes/{id}").buildAndExpand(billeteDevuelto.getId()).toUri();
+			return ResponseEntity.created(uriBuena).build();
 	}
 }

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import adapspand.proyfinal.billete.Billete;
 import adapspand.proyfinal.ruta.Ruta;
 
 @RestController
@@ -35,4 +34,5 @@ public class TrenController {
 				));
 		return ResponseEntity.ok(page.getContent());
 	}
+	
 }

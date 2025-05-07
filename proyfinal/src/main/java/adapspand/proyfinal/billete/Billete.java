@@ -41,6 +41,30 @@ public class Billete {
 		this.destino = destino;
 	}
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Parada getOrigen() {
+		return origen;
+	}
+
+	public void setOrigen(Parada origen) {
+		this.origen = origen;
+	}
+
+	public Parada getDestino() {
+		return destino;
+	}
+
+	public void setDestino(Parada destino) {
+		this.destino = destino;
+	}
+	
 //	public String getPropietario() {
 //		return propietario;
 //	}
