@@ -26,18 +26,18 @@ public class Parada {
 	@Enumerated(EnumType.STRING)
     private Estaciones nombre;
 	
-	private boolean esOrigen;
+	public boolean esOrigen;
 	
 	@OneToMany(mappedBy = "origen")
     private List<Ruta> rutasComoOrigen = new ArrayList<>();
 
 	
-	private boolean esDestino;
+	public boolean esDestino;
 	
 	@OneToMany(mappedBy = "destino")
     private List<Ruta> rutasComoDestino = new ArrayList<>();
 
-	private boolean esIntermedio;
+	public boolean esIntermedio;
 	
 	@OneToMany(mappedBy = "recorrido")
 	private Ruta rutaPerteneciente;
@@ -54,5 +54,12 @@ public class Parada {
 		this.id = id;
 		this.nombre = nombre;
 	}
-	
+
+	public Estaciones getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(Estaciones estacion) {
+		this.nombre = estacion;
+	}
 }

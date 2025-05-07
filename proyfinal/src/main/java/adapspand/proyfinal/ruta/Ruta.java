@@ -5,6 +5,7 @@ import java.util.List;
 
 import adapspand.proyfinal.billete.Billete;
 import adapspand.proyfinal.linea.Linea;
+import adapspand.proyfinal.parada.Estaciones;
 import adapspand.proyfinal.parada.Parada;
 import adapspand.proyfinal.tren.Tren;
 import jakarta.persistence.CascadeType;
@@ -67,5 +68,66 @@ public class Ruta {
 		this.destino = destino;
 		this.recorrido = recorrido;
 	}
+	
+	private List<List<Estaciones>> obtenerTodasLasLineas() {
+	    List<List<Estaciones>> lineas = new ArrayList<>();
+	    
+	    lineas.add(Linea.setLineaA());
+	    lineas.add(Linea.setLineaB());
+	    lineas.add(Linea.setLineaC());
+	    lineas.add(Linea.setLineaD());
+	    lineas.add(Linea.setLineaE());
+	    
+	    return lineas;
+	}
+
+	
+	public Ruta getRuta(Parada origen, Parada destino) {
+	    List<Parada> mejorRuta = new ArrayList<>();
+	    boolean rutaEncontrada = false;
+
+	    List<List<Estaciones>> lineas = obtenerTodasLasLineas();
+
+	    for (List<Estaciones> linea : lineas) {
+	        for (int i = 0; i < linea.size(); i++) {
+	            // Compara las paradas de la línea con las de la ruta
+	            if (linea.get(i) == origen.getNombre()) {
+	                // Encuentra el origen y empieza a construir la ruta
+	                for (int j = i; j < linea.size(); j++) {
+	                    if (linea.get(j) == destino.getNombre()) {
+	                        // Si encuentras el destino, añades todas las paradas intermedias
+	                        for (int k = i; k <= j; k++) {
+	                            Parada parada = new Parada(); // Crear una nueva parada
+	                            parada.setNombre(linea.get(k)); // Asignar el valor del Enum
+	                            
+	                            if (k == i) {
+	                            	parada.esOrigen = true;
+	                            }
+	                            if (k == j) {
+	                            	parada.esDestino = true;
+	                            }
+	                            if (k != i && k != j) {
+	                            	parada.esIntermedio = true;
+	                            }
+	                            mejorRuta.add(parada);
+	                        }
+	                        rutaEncontrada = true;
+	                        break;
+	                    }
+	                }
+	            }
+	            if (rutaEncontrada) break;
+	        }
+	        if (rutaEncontrada) break;
+	    }
+
+	    Ruta ruta = new Ruta();
+	    ruta.origen =origen;
+	    ruta.destino = destino;
+	    ruta.recorrido = mejorRuta;
+
+	    return ruta;
+	}
+
 	
 }
