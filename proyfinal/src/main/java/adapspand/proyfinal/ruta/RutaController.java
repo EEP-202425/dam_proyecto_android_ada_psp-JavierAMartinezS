@@ -1,12 +1,16 @@
 package adapspand.proyfinal.ruta;
 
+import java.net.URI;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import adapspand.proyfinal.billete.Billete;
 import adapspand.proyfinal.billete.BilleteRepository;
@@ -25,7 +29,7 @@ public class RutaController {
 	
 	
 	@GetMapping
-    public ResponseEntity<Ruta> findByBillete(@RequestParam Long billeteId) {
+    public ResponseEntity<Ruta> findAll(@RequestParam Long billeteId) {
         Optional<Billete> billeteOpt = billeteRepository.findById(billeteId);
         
         if (billeteOpt.isEmpty()) {
@@ -37,4 +41,26 @@ public class RutaController {
                        .map(ResponseEntity::ok)
                        .orElseGet(() -> ResponseEntity.notFound().build());
     }
+	
+	@PostMapping
+	private ResponseEntity<Void> createRuta(
+			@RequestBody Ruta nuevaRuta, UriComponentsBuilder ucb, Long id
+			) {
+			Ruta rutaBuena = new Ruta(null, nuevaRuta.getOrigen(),
+					nuevaRuta.getDestino(), nuevaRuta.getRecorrido());
+			Ruta rutaDevuelta = rutaRepository.save(rutaBuena);
+			URI uriBuena = ucb.path("rutas/{id}").buildAndExpand(rutaDevuelta.getId()).toUri();
+			return ResponseEntity.created(uriBuena).build();
+	}
+	
+//	@PostMapping
+//	private ResponseEntity<Void> createCashCard(
+//			@RequestBody CashCard nuevaTarjeta, UriComponentsBuilder ucb,
+//			Principal principal
+//			) {
+//		CashCard tarjetaBuena = new CashCard(null, nuevaTarjeta.amount(), principal.getName());
+//		CashCard devuelto = cashCardRepository.save(tarjetaBuena);
+//		URI locationBuena = ucb.path("cashcards/{id}").buildAndExpand(devuelto.id()).toUri();
+//		return ResponseEntity.created(locationBuena).build();
+//	}
 }

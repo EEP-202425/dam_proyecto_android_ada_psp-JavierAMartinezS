@@ -129,6 +129,14 @@ public class Ruta {
 	    return ruta;
 	}
 	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public Parada getOrigen() {
 		return origen;
 	}
@@ -145,4 +153,12 @@ public class Ruta {
 		this.destino = destino;
 	}
 
+	public List<Parada> getRecorrido() {
+		return recorrido;
+	}
+
+	public void setRecorrido(List<Parada> recorrido) {
+		this.recorrido = recorrido;
+	}
+	
 }
