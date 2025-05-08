@@ -10,6 +10,6 @@ import adapspand.proyfinal.ruta.Ruta;
 public interface TrenRepository extends CrudRepository<Tren, Long>,
 	PagingAndSortingRepository<Tren, Long>{
 	
-	Page<Tren> buscarPorRuta(Ruta ruta, PageRequest pageRequest);
+	Page<Tren> findByRutaCorrespondiente(Ruta ruta, PageRequest pageRequest);
 
 }

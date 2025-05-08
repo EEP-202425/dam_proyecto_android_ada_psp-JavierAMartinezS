@@ -24,13 +24,13 @@ public class BilleteControler {
 	
 	private final BilleteRepository billeteRepository;
 	
-	private BilleteControler(BilleteRepository br) {
+	public BilleteControler( BilleteRepository br) {
 		this.billeteRepository = br;
 	}
 	
 	@GetMapping
-	private ResponseEntity<List<Billete>> findAll(Pageable pageable, Principal principal) {
-		Page<Billete> page = billeteRepository.buscarPorPropietario(
+	public ResponseEntity<List<Billete>> findAll(Pageable pageable, Principal principal) {
+		Page<Billete> page = billeteRepository.findByPropietario(
 				principal.getName(),
 				PageRequest.of(
 						pageable.getPageNumber(),
@@ -41,8 +41,8 @@ public class BilleteControler {
 	}
 	
 	@PostMapping
-	private ResponseEntity<Void> createBillete(
-			@RequestBody Billete nuevoBillete, UriComponentsBuilder ucb, Long id
+	public ResponseEntity<Void> createBillete(
+			@RequestBody Billete nuevoBillete, UriComponentsBuilder ucb
 			) {
 			Billete billeteBueno = new Billete(null, nuevoBillete.getOrigen(),
 					nuevoBillete.getDestino());
@@ -51,3 +51,19 @@ public class BilleteControler {
 			return ResponseEntity.created(uriBuena).build();
 	}
 }
+
+//@PostMapping
+//public ResponseEntity<Void> createBillete(
+//        @RequestBody Billete nuevoBillete,
+//        UriComponentsBuilder ucb) {
+//
+//    // Si el billete tiene una Ruta asociada, se toma su origen/destino
+//    if (nuevoBillete.getRuta() != null) {
+//        nuevoBillete.setOrigen(nuevoBillete.getRuta().getOrigen());
+//        nuevoBillete.setDestino(nuevoBillete.getRuta().getDestino());
+//    }
+//
+//    Billete billeteGuardado = billeteRepository.save(nuevoBillete);
+//    URI uri = ucb.path("/billetes/{id}").buildAndExpand(billeteGuardado.getId()).toUri();
+//    return ResponseEntity.created(uri).build();
+//}

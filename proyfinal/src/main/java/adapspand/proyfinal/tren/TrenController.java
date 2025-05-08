@@ -25,7 +25,7 @@ public class TrenController {
 	
 	@GetMapping
 	private ResponseEntity<List<Tren>> findAll(Pageable pageable, Ruta ruta) {
-		Page<Tren> page = trenRepository.buscarPorRuta(
+		Page<Tren> page = trenRepository.findByRutaCorrespondiente(
 				ruta.getRuta(ruta.getOrigen(), ruta.getDestino()),
 				PageRequest.of(
 						pageable.getPageNumber(),

@@ -10,5 +10,5 @@ import adapspand.proyfinal.ruta.Ruta;
 public interface ParadaRepository extends CrudRepository<Parada, Long>,
 	PagingAndSortingRepository<Parada, Long>{
 	
-	Page<Parada> buscarPorRuta(Ruta ruta, PageRequest pageRequest);
+	Page<Parada> findByRutas(Ruta ruta, PageRequest pageRequest);
 }

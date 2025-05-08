@@ -36,7 +36,7 @@ public class RutaController {
             return ResponseEntity.notFound().build();
         }
         
-        Ruta ruta = rutaRepository.buscarPorBillete(billeteOpt.get());
+        Ruta ruta = rutaRepository.findByBillete(billeteOpt.get());
         return Optional.ofNullable(ruta)
                        .map(ResponseEntity::ok)
                        .orElseGet(() -> ResponseEntity.notFound().build());

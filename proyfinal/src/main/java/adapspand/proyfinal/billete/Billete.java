@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -20,10 +21,14 @@ public class Billete {
 	
 	private int precio;
 	
-//	private String propietario;
+	private String propietario;
 	
+	@ManyToOne //no necesario el OneToMany
+    @JoinColumn(name = "origen_id")
 	private Parada origen;
 	
+	@ManyToOne //no necesario el OneToMany
+    @JoinColumn(name = "destino_id")
 	private Parada destino;
 	
 	@OneToOne
@@ -65,12 +70,27 @@ public class Billete {
 		this.destino = destino;
 	}
 	
-//	public String getPropietario() {
-//		return propietario;
-//	}
-//
-//	public void setPropietario(String propietario) {
-//		this.propietario = propietario;
-//	}
+	public int getPrecio() {
+		return precio;
+	}
+	public void setPrecio(int precio) {
+		this.precio = precio;
+	}
+	
+	public Ruta getRuta() {
+		return ruta;
+	}
+
+	public void setRuta(Ruta ruta) {
+		this.ruta = ruta;
+	}
+	
+	public String getPropietario() {
+		return propietario;
+	}
+
+	public void setPropietario(String propietario) {
+		this.propietario = propietario;
+	}
 	
 }

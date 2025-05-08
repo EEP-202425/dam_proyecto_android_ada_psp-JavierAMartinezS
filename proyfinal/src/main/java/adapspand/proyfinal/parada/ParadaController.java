@@ -35,7 +35,7 @@ public class ParadaController {
 	        return ResponseEntity.notFound().build();
 	    }
 	    
-	    Page<Parada> page = paradaRepository.buscarPorRuta(
+	    Page<Parada> page = paradaRepository.findByRutas(
                 ruta,
                 PageRequest.of(
                         pageable.getPageNumber(),

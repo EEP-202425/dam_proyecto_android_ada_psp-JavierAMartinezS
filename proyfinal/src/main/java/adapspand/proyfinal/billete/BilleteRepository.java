@@ -8,7 +8,5 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 public interface BilleteRepository extends CrudRepository<Billete, Long>,
 	PagingAndSortingRepository<Billete, Long>{
 	
-	Billete buscarPorIdYPropietario(Long id, String propietario);
-	
-	Page<Billete> buscarPorPropietario(String propietario, PageRequest pageRequest);
+	Page<Billete> findByPropietario(String propietario, PageRequest pageRequest);
 }

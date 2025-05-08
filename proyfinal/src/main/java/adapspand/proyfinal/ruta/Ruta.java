@@ -166,5 +166,13 @@ public class Ruta {
 	public void setRecorrido(List<Parada> recorrido) {
 		this.recorrido = recorrido;
 	}
+
+	public List<Tren> getTrenes() {
+		return trenes;
+	}
+
+	public void setTrenes(List<Tren> trenes) {
+		this.trenes = trenes;
+	}
 	
 }

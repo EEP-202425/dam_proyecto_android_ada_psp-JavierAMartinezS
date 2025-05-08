@@ -25,7 +25,7 @@ public class LineaController {
 	
 	@GetMapping
 	private ResponseEntity<List<Linea>> findAll(Pageable pageable, Ruta ruta) {
-		Page<Linea> page = lineaRepository.buscarPorRuta(
+		Page<Linea> page = lineaRepository.findByRutas(
 				ruta.getRuta(ruta.getOrigen(), ruta.getDestino()),
 				PageRequest.of(
 						pageable.getPageNumber(),

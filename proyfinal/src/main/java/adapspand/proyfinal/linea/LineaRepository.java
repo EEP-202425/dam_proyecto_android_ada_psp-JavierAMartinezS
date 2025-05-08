@@ -11,7 +11,7 @@ import adapspand.proyfinal.ruta.Ruta;
 public interface LineaRepository extends CrudRepository<Linea, Long>,
 	PagingAndSortingRepository<Linea, Long>{
 	
-	Linea buscarPorParada(Parada parada, PageRequest pageRequest);
+	Page<Linea> findByParadas(Parada parada, PageRequest pageRequest);
 	
-	Page<Linea> buscarPorRuta(Ruta ruta, PageRequest pageRequest);
+	Page<Linea> findByRutas(Ruta ruta, PageRequest pageRequest);
 }
