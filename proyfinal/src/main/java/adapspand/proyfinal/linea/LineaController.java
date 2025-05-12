@@ -30,7 +30,7 @@ public class LineaController {
 				PageRequest.of(
 						pageable.getPageNumber(),
 						pageable.getPageSize(),
-						pageable.getSortOr(Sort.by(Sort.Direction.ASC, "destino"))
+						pageable.getSortOr(Sort.by(Sort.Direction.ASC, "nombre"))
 				));
 		return ResponseEntity.ok(page.getContent());
 	}

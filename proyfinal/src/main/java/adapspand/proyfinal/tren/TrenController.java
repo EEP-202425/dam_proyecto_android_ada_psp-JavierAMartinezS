@@ -30,7 +30,7 @@ public class TrenController {
 				PageRequest.of(
 						pageable.getPageNumber(),
 						pageable.getPageSize(),
-						pageable.getSortOr(Sort.by(Sort.Direction.ASC, "destino"))
+						pageable.getSortOr(Sort.by(Sort.Direction.ASC, "id"))
 				));
 		return ResponseEntity.ok(page.getContent());
 	}

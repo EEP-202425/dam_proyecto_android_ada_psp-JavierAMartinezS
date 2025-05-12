@@ -35,7 +35,7 @@ public class Ruta {
 	private Parada origen;
 	
 	@ManyToOne
-    @JoinColumn(name = "destino_id")
+    @JoinColumn(name = "destinoId")
 	private Parada destino;
 	
 	@ManyToMany
