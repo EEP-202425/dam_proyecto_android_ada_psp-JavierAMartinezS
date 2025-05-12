@@ -2,6 +2,7 @@ package adapspand.proyfinal.parada;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,13 +23,14 @@ public class ParadaController {
 	private final ParadaRepository paradaRepository;
 	private final RutaRepository rutaRepository;
 	
-	private ParadaController(ParadaRepository pr, RutaRepository rr) {
+	@Autowired
+	public ParadaController(ParadaRepository pr, RutaRepository rr) {
 		this.paradaRepository = pr;
 		this.rutaRepository = rr;
 	}
 	
 	@GetMapping
-	private ResponseEntity<List<Parada>> findAll(@RequestParam Long rutaId,Pageable pageable) {
+	public ResponseEntity<List<Parada>> findAll(@RequestParam Long rutaId,Pageable pageable) {
 		
 		Ruta ruta = rutaRepository.findById(rutaId).orElse(null);
 	    if (ruta == null) {
@@ -44,4 +46,5 @@ public class ParadaController {
                 ));
 		return ResponseEntity.ok(page.getContent());
 	}
+	
 }
