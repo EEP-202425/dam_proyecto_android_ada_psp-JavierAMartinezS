@@ -1,0 +1,26 @@
+package adapspand.proyfinal.billete;
+
+import java.awt.print.Pageable;
+import java.security.Principal;
+import java.util.List;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/billetes")
+public class BilleteControler {
+	
+	private final BilleteRepository billeteRepository;
+	
+	private BilleteControler(BilleteRepository br) {
+		this.billeteRepository = br;
+	}
+	
+	@GetMapping
+	private ResponseEntity<List<Billete>> buscarTodos(Pageable pageable, Principal principal) {
+		
+	}
+}

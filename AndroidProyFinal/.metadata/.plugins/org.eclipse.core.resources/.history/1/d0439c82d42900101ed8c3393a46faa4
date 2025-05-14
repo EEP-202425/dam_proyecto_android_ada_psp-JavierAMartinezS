@@ -1,0 +1,12 @@
+package adapspand.proyfinal.billete;
+
+import org.hibernate.query.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
+
+public interface BilleteRepository extends CrudRepository<Billete, Long>,
+	PagingAndSortingRepository<Billete, Long>{
+	
+	Page<Billete> findByOwner(String propietario, PageRequest pageRequest);
+}

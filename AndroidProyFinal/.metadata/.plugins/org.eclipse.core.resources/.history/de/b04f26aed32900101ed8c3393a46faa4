@@ -1,0 +1,15 @@
+package adapspand.proyfinal.billete;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/billetes")
+public class BilleteControler {
+	
+	private final BilleteRepository billeteRepository;
+	
+	private BilleteControler(BilleteRepository br) {
+		this.billeteRepository = br;
+	}
+}

@@ -1,0 +1,15 @@
+-- 1) Inserta las paradas
+INSERT INTO parada (id, nombre, es_origen, es_destino, es_intermedio) VALUES
+  (1, 'MADRID',    true,  false, false),
+  (2, 'BARCELONA', false, false, true),
+  (3, 'MARSELLA',  false, true,  false);
+
+-- 2) Inserta la ruta (MADRID → MARSELLA)
+INSERT INTO ruta (id, origenId, destino_id, transbordo) VALUES
+  (1, 1, 3, false);
+
+-- 3) Asocia el recorrido (la tabla intermedia definida por @ManyToMany + @OrderColumn)
+INSERT INTO ruta_paradas (ruta_id, parada_id, trayecto) VALUES
+  (1, 1, 0),  -- MADRID en posición 0
+  (1, 2, 1),  -- BARCELONA en posición 1
+  (1, 3, 2);  -- MARSELLA en posición 2

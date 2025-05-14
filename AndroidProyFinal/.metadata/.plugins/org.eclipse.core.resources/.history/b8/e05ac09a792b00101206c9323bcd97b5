@@ -1,0 +1,8 @@
+package adapspand.proyfinal.billete;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class BilleteService {
+
+}

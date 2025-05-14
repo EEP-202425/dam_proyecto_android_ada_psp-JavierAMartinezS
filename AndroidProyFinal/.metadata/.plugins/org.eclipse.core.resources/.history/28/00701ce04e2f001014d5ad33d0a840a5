@@ -1,0 +1,70 @@
+package adapspand.proyfinal.tren;
+
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import adapspand.proyfinal.parada.ParadaRepository;
+import adapspand.proyfinal.ruta.Ruta;
+import adapspand.proyfinal.ruta.RutaRepository;
+
+@RestController
+@RequestMapping("/trenes")
+public class TrenController {
+	
+	private final TrenRepository trenRepository;
+	private final ParadaRepository paradaRepository;
+    private final RutaRepository rutaRepository;
+	
+	private TrenController(TrenRepository tr, ParadaRepository pr, RutaRepository rr) {
+		this.trenRepository = tr;
+		this.paradaRepository = pr;
+		this.rutaRepository = rr;
+	}
+	
+	@GetMapping
+    private ResponseEntity<List<Tren>> findAll(
+            Pageable pageable,
+            @RequestParam(required = false) Long origenId,
+            @RequestParam(required = false) Long destinoId) {
+
+        Page<Tren> page;
+        Sort sort = pageable.getSortOr(Sort.by(Sort.Direction.ASC, "id"));
+
+        if (origenId != null && destinoId != null) {
+            // 1. Buscar las Paradas por ID
+            Parada origen = paradaRepository.findById(origenId).orElse(null);
+            Parada destino = paradaRepository.findById(destinoId).orElse(null);
+
+            if (origen != null && destino != null) {
+                // 2. Buscar la Ruta que contiene esas Paradas
+                Ruta ruta = rutaRepository.findByOrigenAndDestino(origen, destino); // Necesitas este método en RutaRepository
+
+                if (ruta != null) {
+                    // 3. Usar la Ruta encontrada para buscar los Trenes
+                    page = trenRepository.findByRutaCorrespondiente(ruta, PageRequest.of(
+                            pageable.getPageNumber(),
+                            pageable.getPageSize(),
+                            sort));
+                } else {
+                    // No se encontró la ruta, devuelve un error
+                    return ResponseEntity.badRequest().build();
+                }
+            } else {
+                // No se encontró alguna de las paradas, devuelve un error
+                return ResponseEntity.badRequest().build();
+            }
+        } else {
+            page = trenRepository.findAll(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort));
+        }
+        return ResponseEntity.ok(page.getContent());
+    }
+	
+}

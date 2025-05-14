@@ -1,0 +1,9 @@
+package adapspand.proyfinal.linea;
+
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
+
+public interface LineaRepository extends CrudRepository<Linea, Long>,
+	PagingAndSortingRepository<Linea, Long>{
+
+}

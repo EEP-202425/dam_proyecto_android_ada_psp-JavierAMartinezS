@@ -1,0 +1,8 @@
+package adapspand.proyfinal.billete;
+
+import jakarta.persistence.Entity;
+
+@Entity
+public class Billete {
+
+}

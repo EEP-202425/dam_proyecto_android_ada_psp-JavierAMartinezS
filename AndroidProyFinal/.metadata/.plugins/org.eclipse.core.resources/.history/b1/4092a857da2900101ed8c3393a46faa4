@@ -1,0 +1,16 @@
+package adapspand.proyfinal.ruta;
+
+
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
+
+import adapspand.proyfinal.billete.Billete;
+
+public interface RutaRepository extends CrudRepository<Ruta, Long>,
+	PagingAndSortingRepository<Ruta, Long>{
+	
+	Ruta buscarPorBillete(Billete billete, PageRequest pageRequest);
+	
+	List<Ruta> buscarPorParada
+}

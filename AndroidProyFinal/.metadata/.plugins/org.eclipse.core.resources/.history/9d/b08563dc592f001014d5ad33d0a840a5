@@ -1,0 +1,66 @@
+package adapspand.proyfinal.linea;
+
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import adapspand.proyfinal.parada.Parada;
+import adapspand.proyfinal.parada.ParadaRepository;
+import adapspand.proyfinal.ruta.Ruta;
+import adapspand.proyfinal.ruta.RutaRepository;
+
+@RestController
+@RequestMapping("/lineas")
+public class LineaController {
+	
+	private final LineaRepository lineaRepository;
+	private final ParadaRepository paradaRepository;
+    private final RutaRepository rutaRepository;
+	
+	private LineaController(LineaRepository lr, ParadaRepository pr, RutaRepository rr) {
+		this.lineaRepository = lr;
+		this.paradaRepository = pr;
+		this.rutaRepository = rr;
+	}
+	
+	@GetMapping
+    private ResponseEntity<List<Linea>> findAll(
+            Pageable pageable,
+            @RequestParam(required = false) Long origenId,
+            @RequestParam(required = false) Long destinoId) {
+
+        Page<Linea> page;
+        Sort sort = pageable.getSortOr(Sort.by(Sort.Direction.ASC, "nombre"));
+
+        if (origenId != null && destinoId != null) {
+            Parada origen = paradaRepository.findById(origenId).orElse(null);
+            Parada destino = paradaRepository.findById(destinoId).orElse(null);
+
+            if (origen != null && destino != null) {
+                Ruta rutas = rutaRepository.findByOrigenAndDestino(origen, destino);
+
+                if (rutas != null) {
+                    page = lineaRepository.findByRutas(rutas, PageRequest.of(
+                            pageable.getPageNumber(),
+                            pageable.getPageSize(),
+                            sort));
+                } else {
+                    return ResponseEntity.badRequest().build();
+                }
+            } else {
+                return ResponseEntity.badRequest().build();
+            }
+        } else {
+            page = lineaRepository.findAll(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort));
+        }
+        return ResponseEntity.ok(page.getContent());
+    }
+}

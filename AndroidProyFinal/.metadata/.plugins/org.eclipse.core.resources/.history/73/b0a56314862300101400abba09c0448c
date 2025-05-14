@@ -1,0 +1,25 @@
+package adapspand.proyfinal.ruta;
+
+import java.util.List;
+
+import adapspand.proyfinal.parada.Parada;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
+public class Ruta {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	private Parada origen;
+	
+	private Parada destino;
+	
+	private List<Parada> recorrido;
+	
+	private List<Linea> lineasUsadas;
+}

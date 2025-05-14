@@ -1,0 +1,5 @@
+package adapspand.proyfinal.linea;
+
+public interface LineaRepository {
+
+}
