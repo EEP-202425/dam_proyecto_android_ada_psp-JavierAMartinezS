@@ -27,7 +27,7 @@ fun ListaPantalla(navController: NavHostController, viewModel: ElementosViewMode
                 LazyColumn {
                     items(viewModel.elementos) { item ->
                         Text(item.nombre, style = MaterialTheme.typography.bodyLarge)
-                        Divider()
+                        HorizontalDivider()
                     }
                 }
             }
