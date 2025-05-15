@@ -3,6 +3,7 @@ package adapspand.proyfinal.ruta;
 import java.net.URI;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,31 +20,19 @@ import adapspand.proyfinal.billete.BilleteRepository;
 @RequestMapping("/rutas")
 public class RutaController {
 
-    private final RutaRepository rutaRepository;
-    private final BilleteRepository billeteRepository;
+	@Autowired
+    private RutaService rutaService;
 
-    private RutaController(RutaRepository rutaRepository, BilleteRepository billeteRepository) { // Usa nombres de variables camelCase
-        this.rutaRepository = rutaRepository;
-        this.billeteRepository = billeteRepository;
-    }
+   
 
     @GetMapping
     public ResponseEntity<Ruta> getRutaByBilleteId(@RequestParam Long billeteId) {
-        Optional<Billete> billeteOpt = billeteRepository.findById(billeteId);
-
-        if (billeteOpt.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        Ruta ruta = rutaRepository.findByBillete(billeteOpt.get());
-        return ResponseEntity.of(Optional.ofNullable(ruta));
+        return rutaService.getRutaByBilleteId(billeteId);
     }
 
     @PostMapping
     public ResponseEntity<Void> createRuta(
             @RequestBody Ruta nuevaRuta, UriComponentsBuilder ucb) {
-        Ruta rutaDevuelta = rutaRepository.save(nuevaRuta);
-        URI uriBuena = ucb.path("/rutas/{id}").buildAndExpand(rutaDevuelta.getId()).toUri();
-        return ResponseEntity.created(uriBuena).build();
+        return rutaService.createRuta(nuevaRuta, ucb);
     }
 }

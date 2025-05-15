@@ -1,13 +1,9 @@
 package adapspand.proyfinal.billete;
 
-import java.net.URI;
 import java.security.Principal;
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,39 +12,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import adapspand.proyfinal.ruta.Ruta;
 
 @RestController
 @RequestMapping("/billetes")
 public class BilleteControler {
 	
-	private final BilleteRepository billeteRepository;
-	
-	public BilleteControler( BilleteRepository br) {
-		this.billeteRepository = br;
-	}
+	private BilleteService billeteService;
 	
 	@GetMapping
 	public ResponseEntity<List<Billete>> findAll(Pageable pageable, Principal principal) {
-		Page<Billete> page = billeteRepository.findByPropietario(
-				principal.getName(),
-				PageRequest.of(
-						pageable.getPageNumber(),
-						pageable.getPageSize(),
-						pageable.getSortOr(Sort.by(Sort.Direction.ASC, "precio"))
-				));
-		return ResponseEntity.ok(page.getContent());
+		return billeteService.findAll(pageable, principal);
 	}
 	
 	@PostMapping
 	public ResponseEntity<Void> createBillete(
 			@RequestBody Billete nuevoBillete, UriComponentsBuilder ucb
 			) {
-			Billete billeteBueno = new Billete(null, nuevoBillete.getOrigen(),
-					nuevoBillete.getDestino());
-			Billete billeteDevuelto = billeteRepository.save(billeteBueno);
-			URI uriBuena = ucb.path("billetes/{id}").buildAndExpand(billeteDevuelto.getId()).toUri();
-			return ResponseEntity.created(uriBuena).build();
+			return billeteService.create(nuevoBillete, ucb);
 	}
 }
 

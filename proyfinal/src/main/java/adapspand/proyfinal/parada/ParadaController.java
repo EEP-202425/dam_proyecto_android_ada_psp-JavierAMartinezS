@@ -20,31 +20,11 @@ import adapspand.proyfinal.ruta.RutaRepository;
 @RequestMapping("/paradas")
 public class ParadaController {
 	
-	private final ParadaRepository paradaRepository;
-	private final RutaRepository rutaRepository;
-	
 	@Autowired
-	public ParadaController(ParadaRepository pr, RutaRepository rr) {
-		this.paradaRepository = pr;
-		this.rutaRepository = rr;
-	}
+	private ParadaService paradaService;
 	
 	@GetMapping
 	public ResponseEntity<List<Parada>> findAll(@RequestParam Long rutaId,Pageable pageable) {
-		
-		Ruta ruta = rutaRepository.findById(rutaId).orElse(null);
-	    if (ruta == null) {
-	        return ResponseEntity.notFound().build();
-	    }
-	    
-	    Page<Parada> page = paradaRepository.findByRutas(
-                ruta,
-                PageRequest.of(
-                        pageable.getPageNumber(),
-                        pageable.getPageSize(),
-                        pageable.getSortOr(Sort.by(Sort.Direction.ASC, "nombre"))
-                ));
-		return ResponseEntity.ok(page.getContent());
+		return paradaService.findAll(rutaId, pageable);
 	}
-	
 }
