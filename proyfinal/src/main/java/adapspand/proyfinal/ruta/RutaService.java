@@ -38,4 +38,8 @@ public class RutaService {
         URI uriBuena = ucb.path("/rutas/{id}").buildAndExpand(rutaDevuelta.getId()).toUri();
         return ResponseEntity.created(uriBuena).build();
     }
+	
+	public void delete(Long id) {
+        rutaRepository.deleteById(id);
+    }
 }

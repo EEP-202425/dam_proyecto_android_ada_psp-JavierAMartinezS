@@ -40,4 +40,8 @@ public class BilleteService {
 			URI uriBuena = ucb.path("billetes/{id}").buildAndExpand(billeteDevuelto.getId()).toUri();
 			return ResponseEntity.created(uriBuena).build();
 	}
+	
+	public void delete(Long id) {
+        billeteRepository.deleteById(id);
+    }
 }
