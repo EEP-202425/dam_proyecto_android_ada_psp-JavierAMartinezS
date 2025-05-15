@@ -3,6 +3,9 @@ package adapspand.proyfinal.linea;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import adapspand.proyfinal.parada.Estaciones;
 import adapspand.proyfinal.parada.Parada;
 import adapspand.proyfinal.ruta.Ruta;
@@ -28,6 +31,7 @@ public class Linea {
 	private String nombre;
 	
 	@OneToMany(mappedBy = "linea")
+	@JsonManagedReference
 	private List<Tren> trenesCorrespondientes = new ArrayList<>();
 	
 	@ManyToMany

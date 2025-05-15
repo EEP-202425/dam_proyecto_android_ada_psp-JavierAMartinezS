@@ -33,24 +33,29 @@ public class Ruta {
 
     @ManyToOne
     @JoinColumn(name = "origenId")
+    @JsonManagedReference("ruta-origen")
     private Parada origen;
 
     @ManyToOne
     @JoinColumn(name = "destinoId")
+    @JsonManagedReference("ruta-destino")
     private Parada destino;
 
     @ManyToMany
     @JoinTable(name = "ruta_paradas", joinColumns = @JoinColumn(name = "ruta_id"), inverseJoinColumns = @JoinColumn(name = "parada_id"))
     @OrderColumn(name = "trayecto")
+    @JsonManagedReference("ruta-recorrido")
     private List<Parada> recorrido = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(name = "LineasEnRuta", joinColumns = @JoinColumn(name = "rutaIdEnLinea"), inverseJoinColumns = @JoinColumn(name = "lineaIdEnRuta"))
+    @JsonBackReference
     private List<Linea> lineasUsadas = new ArrayList<>();
 
     private boolean transbordo = false;
 
     @OneToMany(mappedBy = "rutaCorrespondiente")
+    @JsonBackReference
     private List<Tren> trenes = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY)

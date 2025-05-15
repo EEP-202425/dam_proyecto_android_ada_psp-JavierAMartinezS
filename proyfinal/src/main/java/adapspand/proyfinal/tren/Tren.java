@@ -1,6 +1,9 @@
 package adapspand.proyfinal.tren;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import adapspand.proyfinal.linea.Linea;
 import adapspand.proyfinal.ruta.Ruta;
 import jakarta.persistence.Entity;
@@ -21,10 +24,12 @@ public class Tren {
 	
 	@ManyToOne
     @JoinColumn(name = "lineaId")
+	@JsonBackReference
 	private Linea linea;
 
 	@ManyToOne
 	@JoinColumn(name = "rutaId")
+	@JsonManagedReference
 	private Ruta rutaCorrespondiente;
 
 	public Tren() {
