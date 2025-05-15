@@ -2,7 +2,6 @@ package adapspand.proyfinal.parada;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import adapspand.proyfinal.linea.Linea;
 import adapspand.proyfinal.ruta.Ruta;
 import jakarta.persistence.Entity;
@@ -18,48 +17,50 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "parada")
 public class Parada {
-	
-	@Id
+
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-	
-	@Enumerated(EnumType.STRING)
+
+    @Enumerated(EnumType.STRING)
     private Estaciones nombre;
-	
-	public boolean esOrigen;
-	
-	@OneToMany(mappedBy = "origen")
+
+    public boolean esOrigen;
+
+    @OneToMany(mappedBy = "origen")
     private List<Ruta> rutasComoOrigen = new ArrayList<>();
 
-	
-	public boolean esDestino;
-	
-	@OneToMany(mappedBy = "destino")
+    public boolean esDestino;
+
+    @OneToMany(mappedBy = "destino")
     private List<Ruta> rutasComoDestino = new ArrayList<>();
 
-	public boolean esIntermedio;
-	
-	@ManyToMany(mappedBy = "recorrido")
-	private List<Ruta> rutas = new ArrayList<>();
-	
-	@ManyToMany(mappedBy = "paradas")
-	private List<Linea> lineas = new ArrayList<>();
+    public boolean esIntermedio;
 
-	public Parada() {
-		super();
-	}
+    @ManyToMany(mappedBy = "recorrido")
+    private List<Ruta> rutas = new ArrayList<>();
 
-	public Parada(Long id, Estaciones nombre) {
-		super();
-		this.id = id;
-		this.nombre = nombre;
-	}
+    @ManyToMany(mappedBy = "paradas")
+    private List<Linea> lineas = new ArrayList<>();
 
-	public Estaciones getNombre() {
-		return nombre;
-	}
+    @ManyToMany(mappedBy = "recorrido")
+    private List<Ruta> rutasDondeAparece;
 
-	public void setNombre(Estaciones estacion) {
-		this.nombre = estacion;
-	}
+    public Parada() {
+        super();
+    }
+
+    public Parada(Long id, Estaciones nombre) {
+        super();
+        this.id = id;
+        this.nombre = nombre;
+    }
+
+    public Estaciones getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(Estaciones estacion) {
+        this.nombre = estacion;
+    }
 }

@@ -16,7 +16,10 @@ public interface RutaRepository extends CrudRepository<Ruta, Long>,
 	
 	Ruta findByBillete(Billete billete);
 	
+	Ruta findByOrigenAndDestino(Parada origen, Parada destino);
+	
 	Page<Ruta> findByTrenes(Tren tren, PageRequest pr);
 	
 	Page<Ruta> findByRecorrido(Parada parada, PageRequest pageRequest);
+	
 }

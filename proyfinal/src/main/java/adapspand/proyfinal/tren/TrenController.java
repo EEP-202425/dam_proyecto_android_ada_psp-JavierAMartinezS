@@ -9,30 +9,59 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import adapspand.proyfinal.parada.Parada;
+import adapspand.proyfinal.parada.ParadaRepository;
 import adapspand.proyfinal.ruta.Ruta;
+import adapspand.proyfinal.ruta.RutaRepository;
 
 @RestController
 @RequestMapping("/trenes")
 public class TrenController {
 	
 	private final TrenRepository trenRepository;
+	private final ParadaRepository paradaRepository;
+    private final RutaRepository rutaRepository;
 	
-	private TrenController(TrenRepository tr) {
+	private TrenController(TrenRepository tr, ParadaRepository pr, RutaRepository rr) {
 		this.trenRepository = tr;
+		this.paradaRepository = pr;
+		this.rutaRepository = rr;
 	}
 	
 	@GetMapping
-	private ResponseEntity<List<Tren>> findAll(Pageable pageable, Ruta ruta) {
-		Page<Tren> page = trenRepository.findByRutaCorrespondiente(
-				ruta.getRuta(ruta.getOrigen(), ruta.getDestino()),
-				PageRequest.of(
-						pageable.getPageNumber(),
-						pageable.getPageSize(),
-						pageable.getSortOr(Sort.by(Sort.Direction.ASC, "id"))
-				));
-		return ResponseEntity.ok(page.getContent());
-	}
+    private ResponseEntity<List<Tren>> findAll(
+            Pageable pageable,
+            @RequestParam(required = false) Long origenId,
+            @RequestParam(required = false) Long destinoId) {
+
+        Page<Tren> page;
+        Sort sort = pageable.getSortOr(Sort.by(Sort.Direction.ASC, "id"));
+
+        if (origenId != null && destinoId != null) {
+            Parada origen = paradaRepository.findById(origenId).orElse(null);
+            Parada destino = paradaRepository.findById(destinoId).orElse(null);
+
+            if (origen != null && destino != null) {
+                Ruta ruta = rutaRepository.findByOrigenAndDestino(origen, destino);
+
+                if (ruta != null) {
+                    page = trenRepository.findByRutaCorrespondiente(ruta, PageRequest.of(
+                            pageable.getPageNumber(),
+                            pageable.getPageSize(),
+                            sort));
+                } else {
+                    return ResponseEntity.badRequest().build();
+                }
+            } else {
+                return ResponseEntity.badRequest().build();
+            }
+        } else {
+            page = trenRepository.findAll(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort));
+        }
+        return ResponseEntity.ok(page.getContent());
+    }
 	
 }

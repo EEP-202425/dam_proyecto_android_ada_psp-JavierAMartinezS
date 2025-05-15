@@ -136,5 +136,44 @@ public class Linea {
 	    estaciones.add(Estaciones.MILAN);
 	    return estaciones;
 	}
-	
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public List<Tren> getTrenesCorrespondientes() {
+		return trenesCorrespondientes;
+	}
+
+	public void setTrenesCorrespondientes(List<Tren> trenesCorrespondientes) {
+		this.trenesCorrespondientes = trenesCorrespondientes;
+	}
+
+	public List<Parada> getParadas() {
+		return paradas;
+	}
+
+	public void setParadas(List<Parada> paradas) {
+		this.paradas = paradas;
+	}
+
+	public List<Ruta> getRutas() {
+		return rutas;
+	}
+
+	public void setRutas(List<Ruta> rutas) {
+		this.rutas = rutas;
+	}
 }

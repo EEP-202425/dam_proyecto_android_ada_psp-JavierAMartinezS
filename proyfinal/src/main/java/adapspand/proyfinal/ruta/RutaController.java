@@ -18,39 +18,32 @@ import adapspand.proyfinal.billete.BilleteRepository;
 @RestController
 @RequestMapping("/rutas")
 public class RutaController {
-	
-	private final RutaRepository rutaRepository;
-	private final BilleteRepository billeteRepository;
-	
-	private RutaController(RutaRepository rr, BilleteRepository br) {
-		this.rutaRepository = rr;
-		this.billeteRepository = br;
-	}
-	
-	
-	@GetMapping
-    public ResponseEntity<Ruta> findAll(@RequestParam Long billeteId) {
+
+    private final RutaRepository rutaRepository;
+    private final BilleteRepository billeteRepository;
+
+    private RutaController(RutaRepository rutaRepository, BilleteRepository billeteRepository) { // Usa nombres de variables camelCase
+        this.rutaRepository = rutaRepository;
+        this.billeteRepository = billeteRepository;
+    }
+
+    @GetMapping
+    public ResponseEntity<Ruta> getRutaByBilleteId(@RequestParam Long billeteId) {
         Optional<Billete> billeteOpt = billeteRepository.findById(billeteId);
-        
+
         if (billeteOpt.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        
+
         Ruta ruta = rutaRepository.findByBillete(billeteOpt.get());
-        return Optional.ofNullable(ruta)
-                       .map(ResponseEntity::ok)
-                       .orElseGet(() -> ResponseEntity.notFound().build());
+        return ResponseEntity.of(Optional.ofNullable(ruta));
     }
-	
-	@PostMapping
-	private ResponseEntity<Void> createRuta(
-			@RequestBody Ruta nuevaRuta, UriComponentsBuilder ucb, Long id
-			) {
-			Ruta rutaBuena = new Ruta(null, nuevaRuta.getOrigen(),
-					nuevaRuta.getDestino(), nuevaRuta.getRecorrido());
-			Ruta rutaDevuelta = rutaRepository.save(rutaBuena);
-			URI uriBuena = ucb.path("rutas/{id}").buildAndExpand(rutaDevuelta.getId()).toUri();
-			return ResponseEntity.created(uriBuena).build();
-	}
-	
+
+    @PostMapping
+    public ResponseEntity<Void> createRuta(
+            @RequestBody Ruta nuevaRuta, UriComponentsBuilder ucb) {
+        Ruta rutaDevuelta = rutaRepository.save(nuevaRuta);
+        URI uriBuena = ucb.path("/rutas/{id}").buildAndExpand(rutaDevuelta.getId()).toUri();
+        return ResponseEntity.created(uriBuena).build();
+    }
 }

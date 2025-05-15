@@ -31,8 +31,7 @@ public class Billete {
     @JoinColumn(name = "destino_id")
 	private Parada destino;
 	
-	@OneToOne
-	@JoinColumn(name= "ruta")
+	@OneToOne(mappedBy = "billete") 
 	private Ruta ruta;
 	
 	public Billete() {
