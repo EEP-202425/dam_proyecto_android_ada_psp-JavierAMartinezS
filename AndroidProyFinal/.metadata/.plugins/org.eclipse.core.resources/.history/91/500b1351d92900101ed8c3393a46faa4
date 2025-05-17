@@ -1,0 +1,17 @@
+package adapspand.proyfinal.parada;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import adapspand.proyfinal.linea.LineaRepository;
+
+@RestController
+@RequestMapping("/paradas")
+public class ParadaController {
+	
+private final ParadaRepository paradaRepository;
+	
+	private LineaController(ParadaRepository pr) {
+		this.paradaRepository = pr;
+	}
+}

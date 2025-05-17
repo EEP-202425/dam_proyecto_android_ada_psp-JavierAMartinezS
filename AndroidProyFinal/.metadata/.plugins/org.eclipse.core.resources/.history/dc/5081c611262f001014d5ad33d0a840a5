@@ -1,0 +1,126 @@
+-- data.sql
+
+-- **********************************************************
+-- INSERCIÓN DE DATOS PARA EL PROYECTO FINAL
+-- **********************************************************
+
+-- Nota: 'INSERT IGNORE INTO' para MySQL ignora las inserciones que causarían
+-- un conflicto de clave primaria (ej. al reiniciar la aplicación si la DB no se limpia).
+-- Para las tablas con ID autogenerado (como billete, tren, linea), la inserción simple
+-- funcionará, creando nuevos registros cada vez que el script se ejecute, lo cual
+-- puede ser útil para pruebas repetidas o requerir una limpieza periódica.
+
+-- ----------------------------------------------------------
+-- 1. Insertar datos en la tabla 'parada'
+-- (Utilizamos IDs arbitrarios para referenciarlos en otras tablas)
+-- ----------------------------------------------------------
+INSERT IGNORE INTO parada (id, nombre, es_origen, es_destino, es_intermedio) VALUES
+(101, 'MADRID', TRUE, FALSE, FALSE),
+(102, 'BARCELONA', FALSE, FALSE, TRUE),
+(103, 'MARSELLA', FALSE, FALSE, TRUE),
+(104, 'LYON', FALSE, TRUE, FALSE),
+(105, 'PARIS', FALSE, FALSE, TRUE),
+(106, 'BERLIN', FALSE, FALSE, TRUE),
+(107, 'ROMA', FALSE, FALSE, TRUE),
+(108, 'LISBOA', TRUE, FALSE, FALSE),
+(109, 'LONDRES', FALSE, FALSE, FALSE),
+(110, 'FRANKFURT', FALSE, FALSE, TRUE);
+
+
+-- ----------------------------------------------------------
+-- 2. Insertar datos en la tabla 'linea'
+-- (Los IDs se autogeneran)
+-- ----------------------------------------------------------
+INSERT INTO linea (nombre) VALUES
+('Linea Capital Express'),
+('Linea EuroConnect'),
+('Linea Sur Mediterraneo');
+
+
+-- ----------------------------------------------------------
+-- 3. Insertar datos en la tabla de unión 'lineasParada'
+-- (Relación ManyToMany entre Linea y Parada)
+-- Nota: Los IDs de linea se asumen en orden de inserción (1, 2, 3...)
+-- ----------------------------------------------------------
+-- Linea Capital Express (ID=1) pasa por Madrid, Paris, Berlin, Roma
+INSERT IGNORE INTO lineasParada (lineasCorrespondientes, paradasCorrespondientes) VALUES
+(1, 101), -- Linea 1 - MADRID
+(1, 105), -- Linea 1 - PARIS
+(1, 106), -- Linea 1 - BERLIN
+(1, 107); -- Linea 1 - ROMA
+
+-- Linea EuroConnect (ID=2) pasa por Lisboa, Madrid, Lyon, Frankfurt
+INSERT IGNORE INTO lineasParada (lineasCorrespondientes, paradasCorrespondientes) VALUES
+(2, 108), -- Linea 2 - LISBOA
+(2, 101), -- Linea 2 - MADRID
+(2, 104), -- Linea 2 - LYON
+(2, 110); -- Linea 2 - FRANKFURT
+
+-- Linea Sur Mediterraneo (ID=3) pasa por Madrid, Barcelona, Marsella, Roma
+INSERT IGNORE INTO lineasParada (lineasCorrespondientes, paradasCorrespondientes) VALUES
+(3, 101), -- Linea 3 - MADRID
+(3, 102), -- Linea 3 - BARCELONA
+(3, 103), -- Linea 3 - MARSELLA
+(3, 107); -- Linea 3 - ROMA
+
+
+-- ----------------------------------------------------------
+-- 4. Insertar datos en la tabla 'ruta'
+-- (Los IDs se autogeneran. Se vinculan a 'parada's por sus IDs)
+-- ----------------------------------------------------------
+INSERT INTO ruta (origen_id, destino_id, transbordo) VALUES
+(101, 104, FALSE), -- Ruta 1: Madrid -> Lyon
+(106, 107, FALSE), -- Ruta 2: Berlin -> Roma
+(108, 105, TRUE);  -- Ruta 3: Lisboa -> Paris (con transbordo, ejemplo)
+
+
+-- ----------------------------------------------------------
+-- 5. Insertar datos en la tabla de unión 'ruta_paradas'
+-- (Relación ManyToMany entre Ruta y Parada (recorrido), con OrderColumn 'trayecto')
+-- Nota: Los IDs de ruta se asumen en orden de inserción (1, 2, 3...)
+-- ----------------------------------------------------------
+-- Ruta 1 (Madrid -> Lyon) recorrido: Madrid, Barcelona, Marsella, Lyon
+INSERT IGNORE INTO ruta_paradas (ruta_id, parada_id, trayecto) VALUES
+(1, 101, 0), -- Madrid
+(1, 102, 1), -- Barcelona
+(1, 103, 2), -- Marsella
+(1, 104, 3); -- Lyon
+
+-- Ruta 2 (Berlin -> Roma) recorrido: Berlin, Frankfurt, Roma
+INSERT IGNORE INTO ruta_paradas (ruta_id, parada_id, trayecto) VALUES
+(2, 106, 0), -- Berlin
+(2, 110, 1), -- Frankfurt
+(2, 107, 2); -- Roma
+
+
+-- ----------------------------------------------------------
+-- 6. Insertar datos en la tabla de unión 'LineasEnRuta'
+-- (Relación ManyToMany entre Ruta y Linea)
+-- ----------------------------------------------------------
+-- Ruta 1 (Madrid->Lyon) usa Linea Capital Express (ID=1) y Linea Sur Mediterraneo (ID=3)
+INSERT IGNORE INTO LineasEnRuta (rutaIdEnLinea, lineaIdEnRuta) VALUES
+(1, 1),
+(1, 3);
+
+-- Ruta 2 (Berlin->Roma) usa Linea Capital Express (ID=1)
+INSERT IGNORE INTO LineasEnRuta (rutaIdEnLinea, lineaIdEnRuta) VALUES
+(2, 1);
+
+
+-- ----------------------------------------------------------
+-- 7. Insertar datos en la tabla 'tren'
+-- (Los IDs se autogeneran. Se vinculan a 'linea' y 'ruta' por sus IDs)
+-- ----------------------------------------------------------
+INSERT INTO tren (linea_id, ruta_id) VALUES
+(1, 1), -- Tren 1: Linea Capital Express, Ruta Madrid-Lyon
+(1, 2), -- Tren 2: Linea Capital Express, Ruta Berlin-Roma
+(2, 1); -- Tren 3: Linea EuroConnect, Ruta Madrid-Lyon
+
+
+-- ----------------------------------------------------------
+-- 8. Insertar datos en la tabla 'billete'
+-- (El ID se autogenera. Se vincula a 'ruta' y 'parada' por sus IDs)
+-- ----------------------------------------------------------
+INSERT INTO billete (precio, propietario, origen_id, destino_id, ruta) VALUES
+(120, 'Javier Martinez', 101, 104, 1), -- Billete 1: Madrid->Lyon, Ruta 1
+(85, 'Maria Lopez', 106, 107, 2);   -- Billete 2: Berlin->Roma, Ruta 2

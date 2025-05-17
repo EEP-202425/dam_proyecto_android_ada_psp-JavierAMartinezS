@@ -1,0 +1,23 @@
+-- 1) Inserta cada parada en una sentencia separada
+INSERT INTO parada (id, nombre, esOrigen, esDestino, esIntermedio)
+VALUES (1, 'MADRID',    true,  false, false);
+
+INSERT INTO parada (id, nombre, esOrigen, esDestino, esIntermedio)
+VALUES (2, 'BARCELONA', false, false, true);
+
+INSERT INTO parada (id, nombre, esOrigen, esDestino, esIntermedio)
+VALUES (3, 'MARSELLA',  false, true,  false);
+
+-- 2) Inserta la ruta (observa uso de lower_snake_case para las columnas)
+INSERT INTO ruta (id, origenId, destino_id, transbordo)
+VALUES (1, 1, 3, false);
+
+-- 3) Inserta cada fila de la tabla intermedia también por separado
+INSERT INTO ruta_paradas (ruta_id, parada_id, trayecto)
+VALUES (1, 1, 0);
+
+INSERT INTO ruta_paradas (ruta_id, parada_id, trayecto)
+VALUES (1, 2, 1);
+
+INSERT INTO ruta_paradas (ruta_id, parada_id, trayecto)
+VALUES (1, 3, 2);

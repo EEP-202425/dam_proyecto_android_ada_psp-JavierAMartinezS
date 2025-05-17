@@ -1,0 +1,7 @@
+package adapspand.proyfinal.billete;
+
+import org.springframework.data.repository.CrudRepository;
+
+public interface BilleteRepository extends CrudRepository<Billete, Long>{
+
+}

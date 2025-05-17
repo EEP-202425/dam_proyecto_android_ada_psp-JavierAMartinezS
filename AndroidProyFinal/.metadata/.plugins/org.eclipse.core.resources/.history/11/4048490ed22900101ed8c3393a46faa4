@@ -1,0 +1,5 @@
+package adapspand.proyfinal.billete;
+
+public interface BilleteRepository {
+
+}

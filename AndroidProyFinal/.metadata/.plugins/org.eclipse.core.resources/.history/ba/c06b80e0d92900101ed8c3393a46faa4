@@ -1,0 +1,9 @@
+package adapspand.proyfinal.ruta;
+
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
+
+public interface RutaRepository extends CrudRepository<Ruta, Long>,
+	PagingAndSortingRepository<Ruta, Long>{
+
+}

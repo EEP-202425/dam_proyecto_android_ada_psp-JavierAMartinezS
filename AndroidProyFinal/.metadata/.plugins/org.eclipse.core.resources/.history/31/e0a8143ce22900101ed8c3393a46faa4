@@ -1,0 +1,38 @@
+package adapspand.proyfinal.ruta;
+
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import adapspand.proyfinal.billete.Billete;
+
+@RestController
+@RequestMapping("/rutas")
+public class RutaController {
+	
+	private final RutaRepository rutaRepository;
+	
+	private RutaController(RutaRepository rr) {
+		this.rutaRepository = rr;
+	}
+	
+	@GetMapping
+	private ResponseEntity<List<Ruta>> findAll(@RequestParam Long billeteId,  Pageable pageable) {
+		Page<Ruta> page = rutaRepository.buscarPorBillete(
+				billete.getPropietario(),
+				PageRequest.of(
+						pageable.getPageNumber(),
+						pageable.getPageSize(),
+						pageable.getSortOr(Sort.by(Sort.Direction.ASC, "destino"))
+				));
+		return ResponseEntity.ok(page.getContent());
+	}
+}
