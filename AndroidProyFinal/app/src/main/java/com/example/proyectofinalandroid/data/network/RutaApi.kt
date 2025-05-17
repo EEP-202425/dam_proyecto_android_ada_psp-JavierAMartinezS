@@ -1,4 +1,4 @@
-package com.example.proyectofinalandroid.data.api
+package com.example.proyectofinalandroid.data.network
 
 import com.example.proyectofinalandroid.data.Elemento
 import com.example.proyectofinalandroid.data.model.Ruta
