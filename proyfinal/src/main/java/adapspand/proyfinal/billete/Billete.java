@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -20,12 +21,17 @@ public class Billete {
 	
 	private int precio;
 	
+	private String propietario;
+	
+	@ManyToOne //no necesario el OneToMany
+    @JoinColumn(name = "origen_id")
 	private Parada origen;
 	
+	@ManyToOne //no necesario el OneToMany
+    @JoinColumn(name = "destino_id")
 	private Parada destino;
 	
-	@OneToOne
-	@JoinColumn(name= "ruta")
+	@OneToOne(mappedBy = "billete") 
 	private Ruta ruta;
 	
 	public Billete() {
@@ -37,6 +43,53 @@ public class Billete {
 		this.id = id;
 		this.origen = origen;
 		this.destino = destino;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Parada getOrigen() {
+		return origen;
+	}
+
+	public void setOrigen(Parada origen) {
+		this.origen = origen;
+	}
+
+	public Parada getDestino() {
+		return destino;
+	}
+
+	public void setDestino(Parada destino) {
+		this.destino = destino;
+	}
+	
+	public int getPrecio() {
+		return precio;
+	}
+	public void setPrecio(int precio) {
+		this.precio = precio;
+	}
+	
+	public Ruta getRuta() {
+		return ruta;
+	}
+
+	public void setRuta(Ruta ruta) {
+		this.ruta = ruta;
+	}
+	
+	public String getPropietario() {
+		return propietario;
+	}
+
+	public void setPropietario(String propietario) {
+		this.propietario = propietario;
 	}
 	
 }
