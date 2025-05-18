@@ -1,6 +1,0 @@
-package adapspand.proyfinal.parada;
-
-@Entity
-public class Parada {
-
-}
