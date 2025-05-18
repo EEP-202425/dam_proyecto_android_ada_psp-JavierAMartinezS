@@ -23,11 +23,11 @@ public class Billete {
 	
 	private String propietario;
 	
-	@ManyToOne //no necesario el OneToMany
+	@ManyToOne
     @JoinColumn(name = "origen_id")
 	private Parada origen;
 	
-	@ManyToOne //no necesario el OneToMany
+	@ManyToOne
     @JoinColumn(name = "destino_id")
 	private Parada destino;
 	
