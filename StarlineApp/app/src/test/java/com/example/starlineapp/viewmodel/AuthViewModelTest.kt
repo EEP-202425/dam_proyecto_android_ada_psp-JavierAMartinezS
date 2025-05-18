@@ -51,8 +51,11 @@ class AuthViewModelTest {
     fun loginDeberiaFallarConCredencialesIncorrectas() {
         authViewModel.register("Juan Pérez", "juan@example.com", "Password123")
         authViewModel.logout()
+        
         val resultadoEmailIncorrecto = authViewModel.login("noexiste@example.com", "Password123")
         assertFalse("Login con email incorrecto debería fallar", resultadoEmailIncorrecto)
+        
         val resultadoContraseñaIncorrecta = authViewModel.login("juan@example.com", "ContraseñaIncorrecta")
+        assertFalse("Login con contraseña incorrecta debería fallar", resultadoContraseñaIncorrecta)
     }
 } 

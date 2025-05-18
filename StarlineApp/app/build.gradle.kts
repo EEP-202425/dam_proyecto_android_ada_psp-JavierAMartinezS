@@ -50,52 +50,46 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.ui.test.junit4.android)
-    val composeBom = platform("androidx.compose:compose-bom:2024.02.00")
+    val composeBom = platform("androidx.compose:compose-bom:2023.10.01")
     implementation(composeBom)
     androidTestImplementation(composeBom)
 
-    // Core Android dependencies
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("androidx.activity:activity-compose:1.8.2")
 
-    // Compose dependencies
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.material:material-icons-extended")
     
-    // Navigation Compose
     implementation("androidx.navigation:navigation-compose:2.7.7")
     
-    // ViewModel Compose
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
     
-    // Coil para cargar imágenes
     implementation("io.coil-kt:coil-compose:2.5.0")
     
-    // Gson para serialización
     implementation("com.google.code.gson:gson:2.10.1")
     
-    // Retrofit para API REST
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
     
-    // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     
-    // Testing dependencies
     testImplementation("junit:junit:4.13.2")
+    testImplementation("org.mockito:mockito-core:5.7.0")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     
-    // Debug dependencies
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+    
+    testImplementation("com.squareup.retrofit2:retrofit-mock:2.9.0")
 }
