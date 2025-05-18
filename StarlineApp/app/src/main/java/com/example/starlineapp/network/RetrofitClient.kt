@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
     private const val TAG = "RetrofitClient"
-    private const val BASE_URL = "http://10.0.2.2:8085/"  // Apunta a localhost en el emulador
+    private const val BASE_URL = "http://10.0.2.2:8085/"
     
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
@@ -22,23 +22,17 @@ object RetrofitClient {
         .addInterceptor(loggingInterceptor)
         .addInterceptor { chain ->
             val original = chain.request()
-            
-            // IMPORTANTE: No modificar solicitudes que ya tienen Content-Type establecido
             val builder = original.newBuilder()
-            
-            // Solo agregar Content-Type si no existe ya uno
             if (original.header("Content-Type") == null) {
                 builder.header("Content-Type", "application/json")
             }
-            
-            // Siempre agregar Accept
+
             builder.header("Accept", "application/json")
             
             val newRequest = builder
                 .method(original.method, original.body)
                 .build()
-            
-            // Logging detallado para depuración
+
             Log.d(TAG, "Enviando solicitud a: ${newRequest.url}")
             Log.d(TAG, "Método: ${newRequest.method}")
             Log.d(TAG, "Headers: ${newRequest.headers}")
@@ -59,13 +53,10 @@ object RetrofitClient {
         .readTimeout(30, TimeUnit.SECONDS)
         .writeTimeout(30, TimeUnit.SECONDS)
         .build()
-
-    // Configurar Gson para manejar problemas de deserialización
     private val gson = GsonBuilder()
         .serializeNulls()
         .setLenient()
-        .disableHtmlEscaping() // Evitar escape de caracteres especiales
-        // Usar las anotaciones @Expose agregadas a los modelos
+        .disableHtmlEscaping()
         .excludeFieldsWithoutExposeAnnotation()
         .create()
     
@@ -74,8 +65,7 @@ object RetrofitClient {
         .client(client)
         .addConverterFactory(GsonConverterFactory.create(gson))
         .build()
-    
-    // Servicios API
+
     val rutaService: RutaService by lazy {
         retrofit.create(RutaService::class.java)
     }

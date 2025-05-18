@@ -8,12 +8,12 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.starlineapp.model.Route
+import com.example.starlineapp.model.Ruta
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RouteDetailScreen(
-    route: Route,
+    ruta: Ruta,
     onNavigateBack: () -> Unit,
     onDeleteRoute: (String) -> Unit
 ) {
@@ -58,7 +58,7 @@ fun RouteDetailScreen(
                         modifier = Modifier.padding(bottom = 4.dp)
                     )
                     Text(
-                        text = route.origin,
+                        text = ruta.origin,
                         style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier.padding(bottom = 16.dp)
                     )
@@ -69,19 +69,19 @@ fun RouteDetailScreen(
                         modifier = Modifier.padding(bottom = 4.dp)
                     )
                     Text(
-                        text = route.destination,
+                        text = ruta.destination,
                         style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier.padding(bottom = 16.dp)
                     )
 
-                    if (route.description.isNotEmpty()) {
+                    if (ruta.description.isNotEmpty()) {
                         Text(
                             text = "Descripción",
                             style = MaterialTheme.typography.titleMedium,
                             modifier = Modifier.padding(bottom = 4.dp)
                         )
                         Text(
-                            text = route.description,
+                            text = ruta.description,
                             style = MaterialTheme.typography.bodyLarge
                         )
                     }
@@ -97,7 +97,7 @@ fun RouteDetailScreen(
                 confirmButton = {
                     TextButton(
                         onClick = {
-                            onDeleteRoute(route.id)
+                            onDeleteRoute(ruta.id)
                             showDeleteDialog = false
                         }
                     ) {

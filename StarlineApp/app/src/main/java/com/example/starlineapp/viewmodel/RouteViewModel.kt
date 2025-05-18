@@ -3,7 +3,7 @@ package com.example.starlineapp.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.starlineapp.R
-import com.example.starlineapp.model.Route
+import com.example.starlineapp.model.Ruta
 import com.example.starlineapp.repository.RutaRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -12,8 +12,8 @@ import kotlinx.coroutines.launch
 import java.util.UUID
 
 class RouteViewModel : ViewModel() {
-    private val _routes = MutableStateFlow<List<Route>>(emptyList())
-    val routes: StateFlow<List<Route>> = _routes.asStateFlow()
+    private val _routes = MutableStateFlow<List<Ruta>>(emptyList())
+    val routes: StateFlow<List<Ruta>> = _routes.asStateFlow()
     
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
@@ -54,7 +54,7 @@ class RouteViewModel : ViewModel() {
         _error.value = null
         
         // Primero agregamos la ruta localmente para mejor UX
-        val newRoute = Route(
+        val newRuta = Ruta(
             id = UUID.randomUUID().toString(),
             origin = origin,
             destination = destination,
@@ -63,11 +63,11 @@ class RouteViewModel : ViewModel() {
         )
         
         // Actualizamos primero la UI
-        _routes.value = _routes.value + newRoute
+        _routes.value = _routes.value + newRuta
         
         viewModelScope.launch {
             try {
-                val rutaAPI = rutaRepository.convertToRutaAPI(newRoute)
+                val rutaAPI = rutaRepository.convertToRutaAPI(newRuta)
                 
                 rutaRepository.createRuta(rutaAPI).fold(
                     onSuccess = { success ->
@@ -96,15 +96,12 @@ class RouteViewModel : ViewModel() {
         _error.value = null
         
         viewModelScope.launch {
-            // Primero actualizamos localmente
             _routes.value = _routes.value.filter { it.id != id }
-            
-            // Luego intentamos eliminar en el servidor si el ID es numérico
+
             try {
                 val idLong = id.toLong()
                 rutaRepository.deleteRuta(idLong).fold(
-                    onSuccess = { 
-                        // Recargar todas las rutas para mantener sincronización
+                    onSuccess = {
                         loadRoutes()
                     },
                     onFailure = { throwable ->
@@ -112,15 +109,13 @@ class RouteViewModel : ViewModel() {
                     }
                 )
             } catch (e: NumberFormatException) {
-                // Si el ID no es numérico, no intentamos eliminarlo del servidor
-                // porque probablemente sea un ID local que no existe en el backend
             }
             
             _isLoading.value = false
         }
     }
 
-    fun getRoute(id: String): Route? {
+    fun getRoute(id: String): Ruta? {
         return _routes.value.find { it.id == id }
     }
 
@@ -133,29 +128,25 @@ class RouteViewModel : ViewModel() {
         _isLoading.value = true
         _error.value = null
         
-        val updatedRoute = Route(
+        val updatedRuta = Ruta(
             id = id,
             origin = origin,
             destination = destination,
             description = description,
             imageResId = R.drawable.tren_starline
         )
-        
-        // Actualizamos localmente primero
         updateLocalRoute(id, origin, destination, description)
         
         viewModelScope.launch {
             try {
-                // Luego intentamos actualizar en el servidor si el ID es numérico
                 try {
                     val idLong = id.toLong()
                     val deleteResult = rutaRepository.deleteRuta(idLong)
                     
                     if (deleteResult.isSuccess) {
-                        val rutaAPI = rutaRepository.convertToRutaAPI(updatedRoute)
+                        val rutaAPI = rutaRepository.convertToRutaAPI(updatedRuta)
                         rutaRepository.createRuta(rutaAPI).fold(
-                            onSuccess = { 
-                                // Recargar todas las rutas para obtener la información actualizada
+                            onSuccess = {
                                 loadRoutes()
                             },
                             onFailure = { throwable ->
@@ -166,7 +157,6 @@ class RouteViewModel : ViewModel() {
                         _error.value = "No se pudo eliminar la ruta antigua del servidor"
                     }
                 } catch (e: NumberFormatException) {
-                    // Si el ID no es numérico, no intentamos actualizarlo en el servidor
                 }
             } catch (e: Exception) {
                 _error.value = "Error inesperado: ${e.message}"

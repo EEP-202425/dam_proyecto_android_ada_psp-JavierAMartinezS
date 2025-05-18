@@ -17,12 +17,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.starlineapp.R
-import com.example.starlineapp.model.Route
+import com.example.starlineapp.model.Ruta
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RouteListScreen(
-    routes: List<Route>,
+    rutas: List<Ruta>,
     onAddRouteClick: () -> Unit,
     onRouteClick: (String) -> Unit,
     onDeleteRoute: (String) -> Unit,
@@ -80,8 +80,7 @@ fun RouteListScreen(
                 }
             }
 
-            // Show empty state or routes
-            if (routes.isEmpty()) {
+            if (rutas.isEmpty()) {
                 item {
                     Box(
                         modifier = Modifier
@@ -93,9 +92,9 @@ fun RouteListScreen(
                     }
                 }
             } else {
-                items(routes) { route ->
+                items(rutas) { route ->
                     RouteCard(
-                        route = route,
+                        ruta = route,
                         onClick = { onRouteClick(route.id) },
                         onDelete = { onDeleteRoute(route.id) },
                         onEdit = { onEditRoute(route.id) }
@@ -109,7 +108,7 @@ fun RouteListScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RouteCard(
-    route: Route,
+    ruta: Ruta,
     onClick: () -> Unit,
     onDelete: () -> Unit,
     onEdit: () -> Unit
@@ -121,13 +120,12 @@ fun RouteCard(
             .padding(vertical = 8.dp)
     ) {
         Column {
-            // Imagen de la ruta
             Image(
-                painter = painterResource(id = route.imageResId),
+                painter = painterResource(id = ruta.imageResId),
                 contentDescription = "Imagen de la ruta",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(150.dp), // Altura reducida
+                    .height(150.dp),
                 contentScale = ContentScale.Crop
             )
 
@@ -136,9 +134,8 @@ fun RouteCard(
                     .fillMaxWidth()
                     .padding(16.dp)
             ) {
-                // ID de la ruta
                 Text(
-                    text = "ID: ${route.id.take(8)}...",
+                    text = "ID: ${ruta.id.take(8)}...",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.outline,
                     modifier = Modifier.padding(bottom = 8.dp)
@@ -151,12 +148,12 @@ fun RouteCard(
                 ) {
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
-                            text = "${route.origin} → ${route.destination}",
+                            text = "${ruta.origin} → ${ruta.destination}",
                             style = MaterialTheme.typography.titleMedium
                         )
-                        if (route.description.isNotEmpty()) {
+                        if (ruta.description.isNotEmpty()) {
                             Text(
-                                text = route.description,
+                                text = ruta.description,
                                 style = MaterialTheme.typography.bodyMedium
                             )
                         }

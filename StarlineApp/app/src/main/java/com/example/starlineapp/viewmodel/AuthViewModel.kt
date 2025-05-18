@@ -18,7 +18,6 @@ class AuthViewModel : ViewModel() {
     private val users = mutableListOf<User>()
 
     fun register(nombre: String, email: String, password: String): Boolean {
-        // En una aplicación real, aquí se haría la llamada a una API o base de datos
         if (users.any { it.email == email }) {
             return false
         }
@@ -34,7 +33,6 @@ class AuthViewModel : ViewModel() {
     }
 
     fun login(email: String, password: String): Boolean {
-        // En una aplicación real, aquí se verificarían las credenciales contra una API o base de datos
         val user = users.find { it.email == email }
         if (user != null) {
             _currentUser.value = user

@@ -1,9 +1,8 @@
 package com.example.starlineapp.repository
 
-import com.example.starlineapp.model.Route
+import com.example.starlineapp.model.Ruta
 import com.example.starlineapp.model.SimpleParada
 import com.example.starlineapp.model.SimpleRutaAPI
-import com.example.starlineapp.network.RetrofitClient
 import com.example.starlineapp.network.RutaService
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -11,18 +10,14 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
-import org.junit.Assert.fail
 import org.junit.Before
 import org.junit.Test
 import org.mockito.ArgumentMatchers.any
 import org.mockito.ArgumentMatchers.anyLong
 import org.mockito.ArgumentMatchers.anyString
-import org.mockito.ArgumentMatchers.eq
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
 import retrofit2.Response
-import retrofit2.mock.Calls
-import java.io.IOException
 
 @ExperimentalCoroutinesApi
 class RutaRepositoryTest {
@@ -165,7 +160,7 @@ class RutaRepositoryTest {
     @Test
     fun `convertirARutaAPI debería convertir correctamente Route a SimpleRutaAPI`() {
         // Preparar datos de prueba
-        val ruta = Route(
+        val ruta = Ruta(
             id = "1",
             origin = "Madrid",
             destination = "Barcelona",

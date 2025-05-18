@@ -16,21 +16,14 @@ interface RutaService {
     suspend fun getAllRutas(
         @Query("billeteId") billeteId: Long = 0
     ): Response<List<SimpleRutaAPI>>
-    
-    /**
-     * Crear una nueva ruta utilizando parámetros de consulta
-     * (método alternativo si JSON no funciona)
-     */
+
     @POST("rutas")
     suspend fun createRutaSimpleQuery(
         @Query("origenNombre") origenNombre: String,
         @Query("destinoNombre") destinoNombre: String,
         @Query("billeteId") billeteId: Long = 0
     ): Response<Void>
-    
-    /**
-     * Crear una nueva ruta utilizando JSON
-     */
+
     @POST("rutas")
     @Headers("Content-Type: application/json")
     suspend fun createRutaJson(

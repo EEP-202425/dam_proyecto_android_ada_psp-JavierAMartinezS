@@ -92,7 +92,7 @@ fun MainNavigation() {
 
         composable(Screen.RouteList.route) {
             RouteListScreen(
-                routes = routes,
+                rutas = routes,
                 onAddRouteClick = {
                     navController.navigate(Screen.AddRoute.route)
                 },
@@ -130,7 +130,7 @@ fun MainNavigation() {
                 val route = routeViewModel.getRoute(id)
                 route?.let {
                     RouteDetailScreen(
-                        route = it,
+                        ruta = it,
                         onNavigateBack = {
                             navController.navigateUp()
                         },
@@ -154,7 +154,7 @@ fun MainNavigation() {
                 val route = routeViewModel.getRoute(id)
                 route?.let {
                     EditRouteScreen(
-                        route = it,
+                        ruta = it,
                         onSaveRoute = { origin, destination, description ->
                             routeViewModel.updateRoute(id, origin, destination, description)
                             navController.navigateUp()

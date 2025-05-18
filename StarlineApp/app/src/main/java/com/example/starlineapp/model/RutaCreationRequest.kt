@@ -3,7 +3,6 @@ package com.example.starlineapp.model
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-// Clase mínima para crear rutas
 data class RutaCreationRequest(
     @Expose
     @SerializedName("origen")

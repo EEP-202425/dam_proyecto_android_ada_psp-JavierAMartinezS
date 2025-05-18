@@ -11,13 +11,13 @@ import android.widget.Toast
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditRouteScreen(
-    route: com.example.starlineapp.model.Route,
+    ruta: com.example.starlineapp.model.Ruta,
     onSaveRoute: (origin: String, destination: String, description: String) -> Unit,
     onNavigateBack: () -> Unit
 ) {
-    var origin by remember { mutableStateOf(route.origin) }
-    var destination by remember { mutableStateOf(route.destination) }
-    var description by remember { mutableStateOf(route.description) }
+    var origin by remember { mutableStateOf(ruta.origin) }
+    var destination by remember { mutableStateOf(ruta.destination) }
+    var description by remember { mutableStateOf(ruta.description) }
     var isError by remember { mutableStateOf(false) }
     val context = LocalContext.current
 

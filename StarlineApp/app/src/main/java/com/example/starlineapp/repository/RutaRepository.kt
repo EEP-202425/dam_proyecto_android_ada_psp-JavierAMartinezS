@@ -1,10 +1,8 @@
 package com.example.starlineapp.repository
 
 import android.util.Log
-import com.example.starlineapp.model.Route
-import com.example.starlineapp.model.RutaCreationRequest
+import com.example.starlineapp.model.Ruta
 import com.example.starlineapp.model.RutaJsonCreationRequest
-import com.example.starlineapp.model.RutaRequest
 import com.example.starlineapp.model.SimpleParada
 import com.example.starlineapp.model.SimpleRutaAPI
 import com.example.starlineapp.network.RetrofitClient
@@ -18,7 +16,7 @@ class RutaRepository {
     private val TAG = "RutaRepository"
     private val rutaService = RetrofitClient.rutaService
     
-    suspend fun getAllRutas(): Result<List<Route>> {
+    suspend fun getAllRutas(): Result<List<Ruta>> {
         return withContext(Dispatchers.IO) {
             try {
                 // Siempre proporcionamos un billeteId por defecto (0)
@@ -39,7 +37,7 @@ class RutaRepository {
         }
     }
     
-    suspend fun getRutaByBilleteId(billeteId: Long): Result<Route?> {
+    suspend fun getRutaByBilleteId(billeteId: Long): Result<Ruta?> {
         return withContext(Dispatchers.IO) {
             try {
                 val response = rutaService.getRutaByBilleteId(billeteId)
@@ -100,11 +98,7 @@ class RutaRepository {
                         return@withContext Result.failure(Exception("Error: ${queryResponse.code()} - ${queryResponse.message()} - $queryErrorBody"))
                     }
                 }
-                
-                // Si llegamos aquí, uno de los formatos JSON tuvo éxito
                 Log.d(TAG, "Ruta creada exitosamente con JSON: ${jsonResponse.code()}")
-                
-                // Intenta obtener el ID generado por el servidor desde el header Location (si existe)
                 val locationHeader = jsonResponse.headers().get("Location")
                 if (locationHeader != null) {
                     try {
@@ -123,12 +117,8 @@ class RutaRepository {
             }
         }
     }
-    
-    /**
-     * Intenta todos los formatos JSON posibles hasta encontrar uno que funcione
-     */
+
     private suspend fun tryAllJsonFormats(jsonRequest: RutaJsonCreationRequest): retrofit2.Response<Void>? {
-        // Formato 1: JSON Básico
         try {
             val json = jsonRequest.toJsonString()
             Log.d(TAG, "Intentando formato JSON básico: $json")
@@ -139,8 +129,7 @@ class RutaRepository {
         } catch (e: Exception) {
             Log.e(TAG, "Error con formato JSON básico: ${e.message}")
         }
-        
-        // Formato 2: JSON Anidado
+
         try {
             val json = jsonRequest.toNestedJsonString()
             Log.d(TAG, "Intentando formato JSON anidado: $json")
@@ -151,8 +140,7 @@ class RutaRepository {
         } catch (e: Exception) {
             Log.e(TAG, "Error con formato JSON anidado: ${e.message}")
         }
-        
-        // Formato 3: JSON Detallado
+
         try {
             val json = jsonRequest.toDetailedJsonString()
             Log.d(TAG, "Intentando formato JSON detallado: $json")
@@ -163,8 +151,7 @@ class RutaRepository {
         } catch (e: Exception) {
             Log.e(TAG, "Error con formato JSON detallado: ${e.message}")
         }
-        
-        // Formato 4: JSON Object Directo (como último recurso)
+
         try {
             val jsonObject = JSONObject().apply {
                 put("origenNombre", jsonRequest.origenNombre)
@@ -184,7 +171,6 @@ class RutaRepository {
     suspend fun deleteRuta(id: Long): Result<Boolean> {
         return withContext(Dispatchers.IO) {
             try {
-                // Aseguramos que se envía el parámetro billeteId (con valor por defecto)
                 val response = rutaService.deleteRuta(id, billeteId = 0)
                 if (response.isSuccessful) {
                     Result.success(true)
@@ -200,28 +186,25 @@ class RutaRepository {
             }
         }
     }
-    
-    // Método para convertir un Route local a SimpleRutaAPI
-    fun convertToRutaAPI(route: Route): SimpleRutaAPI {
+    fun convertToRutaAPI(ruta: Ruta): SimpleRutaAPI {
         val origen = SimpleParada(
-            nombre = route.origin,
+            nombre = ruta.origin,
             esOrigen = true,
             esDestino = false,
             esIntermedio = false
         )
         
         val destino = SimpleParada(
-            nombre = route.destination,
+            nombre = ruta.destination,
             esOrigen = false,
             esDestino = true,
             esIntermedio = false
         )
-        
-        // Crear parada intermedia si existe descripción
+
         val paradas = mutableListOf(origen)
-        if (route.description.isNotBlank() && !route.description.startsWith("Recorrido:")) {
+        if (ruta.description.isNotBlank() && !ruta.description.startsWith("Recorrido:")) {
             val intermedia = SimpleParada(
-                nombre = route.description.take(20), // Limitar tamaño por si acaso
+                nombre = ruta.description.take(20),
                 esOrigen = false,
                 esDestino = false,
                 esIntermedio = true
@@ -229,12 +212,10 @@ class RutaRepository {
             paradas.add(intermedia)
         }
         paradas.add(destino)
-        
-        // Usar 0 como ID predeterminado para rutas nuevas o cuando el ID no es numérico
+
         val id = try {
-            if (route.id.isBlank()) 0 else route.id.toLong()
+            if (ruta.id.isBlank()) 0 else ruta.id.toLong()
         } catch (e: NumberFormatException) {
-            // Si el ID es un UUID o no es numérico, usamos 0 para indicar una nueva ruta
             0
         }
         

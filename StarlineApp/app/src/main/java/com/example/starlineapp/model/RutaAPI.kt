@@ -1,6 +1,5 @@
 package com.example.starlineapp.model
 
-import com.example.starlineapp.model.Route
 import com.google.gson.annotations.SerializedName
 
 data class RutaAPI(
@@ -22,17 +21,14 @@ data class RutaAPI(
     @SerializedName("billete")
     val billete: Any? = null
 ) {
-    // Método para convertir el modelo de API a modelo local
-    fun toRoute(): Route {
-        return Route(
+    fun toRoute(): Ruta {
+        return Ruta(
             id = id.toString(),
             origin = origen.nombre,
             destination = destino.nombre,
             description = "Recorrido: ${recorrido.joinToString(" → ") { it.nombre }}"
         )
     }
-    
-    // Crear una versión minimalista para enviar al servidor
     fun toMinimal(): Map<String, Any?> {
         return mapOf(
             "id" to id,
