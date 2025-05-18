@@ -40,19 +40,3 @@ public class BilleteControler {
 		billeteService.delete(id);
 	}
 }
-
-//@PostMapping
-//public ResponseEntity<Void> createBillete(
-//        @RequestBody Billete nuevoBillete,
-//        UriComponentsBuilder ucb) {
-//
-//    // Si el billete tiene una Ruta asociada, se toma su origen/destino
-//    if (nuevoBillete.getRuta() != null) {
-//        nuevoBillete.setOrigen(nuevoBillete.getRuta().getOrigen());
-//        nuevoBillete.setDestino(nuevoBillete.getRuta().getDestino());
-//    }
-//
-//    Billete billeteGuardado = billeteRepository.save(nuevoBillete);
-//    URI uri = ucb.path("/billetes/{id}").buildAndExpand(billeteGuardado.getId()).toUri();
-//    return ResponseEntity.created(uri).build();
-//}

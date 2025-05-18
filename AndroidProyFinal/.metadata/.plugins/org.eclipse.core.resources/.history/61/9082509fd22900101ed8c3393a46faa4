@@ -1,5 +1,0 @@
-package adapspand.proyfinal.ruta;
-
-public interface RutaRepository {
-
-}

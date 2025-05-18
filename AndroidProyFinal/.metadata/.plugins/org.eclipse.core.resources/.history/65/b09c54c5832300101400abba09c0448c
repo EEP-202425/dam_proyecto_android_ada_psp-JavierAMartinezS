@@ -1,7 +1,0 @@
-package adapspand.proyfinal.parada;
-import jakarta.persistence.*;
-
-@Entity
-public class Parada {
-
-}

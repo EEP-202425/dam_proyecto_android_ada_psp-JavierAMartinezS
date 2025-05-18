@@ -1,5 +1,0 @@
-package adapspand.proyfinal.tren;
-
-public interface TrenRepository {
-
-}

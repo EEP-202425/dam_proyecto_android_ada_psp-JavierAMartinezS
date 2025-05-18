@@ -1,5 +1,0 @@
-package adapspand.proyfinal.parada;
-
-public interface ParadaRepository {
-
-}

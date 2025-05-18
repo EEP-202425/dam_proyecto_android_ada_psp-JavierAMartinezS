@@ -95,15 +95,12 @@ public class Ruta {
 
         for (List<Estaciones> linea : lineas) {
             for (int i = 0; i < linea.size(); i++) {
-                // Compara las paradas de la línea con las de la ruta
                 if (linea.get(i) == origen.getNombre()) {
-                    // Encuentra el origen y empieza a construir la ruta
                     for (int j = i; j < linea.size(); j++) {
                         if (linea.get(j) == destino.getNombre()) {
-                            // Si encuentras el destino, añades todas las paradas intermedias
                             for (int k = i; k <= j; k++) {
-                                Parada parada = new Parada(); // Crear una nueva parada
-                                parada.setNombre(linea.get(k)); // Asignar el valor del Enum
+                                Parada parada = new Parada();
+                                parada.setNombre(linea.get(k));
                                
                                 if (k == i) {
                                     parada.esOrigen = true;
