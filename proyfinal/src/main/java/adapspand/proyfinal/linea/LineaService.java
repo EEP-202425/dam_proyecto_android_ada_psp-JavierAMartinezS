@@ -31,18 +31,14 @@ public class LineaService {
         List<Linea> lineas;
 
         if (origenId != null && destinoId != null) {
-            // 1. Buscar las Paradas por ID
             Parada origen = paradaRepository.findById(origenId).orElse(null);
             Parada destino = paradaRepository.findById(destinoId).orElse(null);
 
             if (origen != null && destino != null) {
-                // 2. Buscar la Ruta que contiene esas Paradas
                 Ruta ruta = rutaRepository.findByOrigenAndDestino(origen, destino);
 
                 if (ruta != null) {
-                    // 3. Obtener todas las líneas y filtrarlas
-                    lineas = (List<Linea>) lineaRepository.findAll(); // Obtiene todas las líneas
-                    // Filtra las líneas para obtener solo las que están en la ruta.
+                    lineas = (List<Linea>) lineaRepository.findAll();
                     lineas = lineas.stream()
                             .filter(linea -> linea.getRutas().contains(ruta))
                             .collect(Collectors.toList());
